@@ -13,6 +13,18 @@ const main = async () => { // funcion principal me retorna la conexion a la BD
 
     // DESPUES DE LA CONEXION VAN LOS QUERY A LA BASE DE DATOS USANDO EL MODELO:
 
+    
+
+
+
+
+
+
+
+
+
+
+
     const proyectoCreado = await projectModel.find({ _id: '6193132e201eeab51ccd7c33' });
 
     console.log(" consultado proyecto creado es :",JSON.stringify(proyectoCreado));

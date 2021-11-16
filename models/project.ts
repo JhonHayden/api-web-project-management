@@ -13,9 +13,9 @@ interface Project {
     fechaFin: Date;  // estos son tipos de datos de typescript
     estado: Enum_EstadoProyecto;
     fase: Enum_FaseProyecto;
-    lider: Schema.Types.ObjectId; // tipo de mongoose objectid
     objetivos: [{ descripcion: string; tipo: Enum_TipoObjetivo }];// array de objetivos es un arreglo de objetos cada
     // objeto sera un objetivo, los objetos tiene dos campos dos atributos la descripcion y el tipo 
+    lider: Schema.Types.ObjectId; // tipo de mongoose objectid
 }
 
 // Esquema de la coleccion proyectos 
