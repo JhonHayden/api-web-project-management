@@ -1,4 +1,4 @@
-// definicion de enumerador colecion usuario  es un objeto 
+// definicion de enumeradores coleccion usuario:  es un objeto 
 enum Enum_RolUsuario {
     estudiante = 'Estudiante',
     lider = 'Lider',
@@ -10,4 +10,24 @@ enum Enum_EstadoUsuario {
     no_autorizado = 'No Autorizado',
 }
 
-export { Enum_RolUsuario, Enum_EstadoUsuario };
+// definicion de enumeradores coleccion proyectos:  es un objeto 
+enum Enum_EstadoProyecto {
+    activo = 'Activo',
+    inactivo = 'Inactivo',
+}
+
+enum Enum_FaseProyecto {
+    iniciado = 'Iniciado',
+    en_desarrollo = 'En desarrollo',
+    terminado = 'Terminado',
+    nula = '', // para la opcion de nula en el inicio del proyecto 
+}
+
+
+// enumerador de los tipo de objetivos 
+enum Enum_TipoObjetivo {
+    general = 'General',
+    especifico = 'Especifico',
+}
+
+export { Enum_RolUsuario, Enum_EstadoUsuario, Enum_FaseProyecto, Enum_EstadoProyecto, Enum_TipoObjetivo };

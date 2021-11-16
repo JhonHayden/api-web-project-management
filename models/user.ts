@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";// me permite poder usar un esquema y u
 
 import { Enum_EstadoUsuario, Enum_RolUsuario } from "./enumeradores";
 
-// codigo para definir tipos nuevos de datos de mis campos 
+// codigo para definir tipos nuevos de datos de mis campos me permite tener un control de los tipos 
 interface User {
     identificacion: string; // estos son tipos de datos de typescript
     nombre: string; // estos son tipos de datos de typescript
