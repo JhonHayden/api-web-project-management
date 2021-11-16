@@ -30,4 +30,16 @@ enum Enum_TipoObjetivo {
     especifico = 'Especifico',
 }
 
-export { Enum_RolUsuario, Enum_EstadoUsuario, Enum_FaseProyecto, Enum_EstadoProyecto, Enum_TipoObjetivo };
+// enumerador de Estado inscripcion 
+enum Enum_EstadoInscripcion {
+    acertada = 'Aceptada',
+    rechazada = 'Rechazada',
+}
+export {
+    Enum_RolUsuario,
+    Enum_EstadoUsuario,
+    Enum_FaseProyecto,
+    Enum_EstadoProyecto,
+    Enum_TipoObjetivo,
+    Enum_EstadoInscripcion
+};
