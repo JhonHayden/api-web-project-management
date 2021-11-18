@@ -14,8 +14,13 @@ import { gql } from "apollo-server-express";
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
 
+//  scalar Date me permite poder usar el tipo Date para la fechas 
+// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
+//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
+// como scalar Date, esto hace que sea un tipo personalizado  
 const typeDefs = gql`
 
+    scalar Date
 
     enum Enum_RolUsuario{
         ESTUDIANTE
@@ -29,6 +34,24 @@ const typeDefs = gql`
         NO_AUTORIZADO
     }
 
+    enum Enum_EstadoProyecto {
+        ACTIVO
+        INACTIVO
+    }
+
+    enum Enum_FaseProyecto {
+        INICIADO
+        EN_DESARROLLO
+        TERMINADO
+        NULA
+    }
+
+    enum Enum_TipoObjetivo {
+        GENERAL
+        ESPECIFICO
+    }
+
+
     type Usuario { 
         _id:ID!
         identificacion:String!
@@ -39,10 +62,45 @@ const typeDefs = gql`
         estado:Enum_EstadoUsuario
 
     }
+    input edicionUsuario{
+        
+        identificacion:String
+        nombre: String
+        apellido:String
+        correo:String
+        rol:Enum_RolUsuario
+        estado:Enum_EstadoUsuario
+        }
 
+    type Objetivo{
+        _id:ID!
+        descripcion:String!
+        tipo:Enum_TipoObjetivo!
+    }
+
+    input crearObjetivo{
+
+        
+        descripcion:String!
+        tipo:Enum_TipoObjetivo!
+    }
+
+    type Proyecto {
+        _id:ID!
+        nombre:String!
+        objetivos:[Objetivo]!
+        presupuesto:Float!
+        fechaInicio:Date!
+        fechaFin:Date!
+        estado:Enum_EstadoProyecto!
+        fase:Enum_FaseProyecto!
+        lider:Usuario!
+    }
      type Query{   
         Usuarios:[Usuario]
         Usuario(_id:String!):Usuario
+        Proyectos:[Proyecto]
+        Proyecto(nombre:String!):Proyecto
 
     }
 
@@ -71,6 +129,32 @@ const typeDefs = gql`
             estado:Enum_EstadoUsuario
         ):Usuario
 
+        crearProyecto(
+            nombre: String!
+            objetivos: [crearObjetivo]
+            presupuesto: Float
+            fechaInicio:Date!
+            fechaFin:Date!
+            estado: Enum_EstadoProyecto
+            fase: Enum_FaseProyecto
+            lider: String!
+        ):Proyecto
+
+        eliminarProyecto(
+            nombre:String!
+        ):Proyecto
+
+        editarProyecto(
+            _id:ID!
+            nombre:String
+            objetivos:[crearObjetivo]
+            presupuesto:Float
+            fechaInicio:Date
+            fechaFin:Date
+            estado:Enum_EstadoProyecto
+            fase:Enum_FaseProyecto
+            lider:String
+        ):Proyecto
     }
     `;
 

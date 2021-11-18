@@ -12,22 +12,22 @@ enum Enum_EstadoUsuario {
 
 // definicion de enumeradores coleccion proyectos:  es un objeto 
 enum Enum_EstadoProyecto {
-    activo = 'Activo',
-    inactivo = 'Inactivo',
+    ACTIVO = 'ACTIVO',
+    INACTIVO = 'INACTIVO',
 }
 
 enum Enum_FaseProyecto {
-    iniciado = 'Iniciado',
-    en_desarrollo = 'En desarrollo',
-    terminado = 'Terminado',
-    nula = '', // para la opcion de nula en el inicio del proyecto 
+    INICIADO = 'INICIADO',
+    EN_DESARROLLO = 'EN_DESARROLLO',
+    TERMINADO = 'TERMINADO',
+    NULA = 'NULA', // para la opcion de nula en el inicio del proyecto 
 }
 
 
 // enumerador de los tipo de objetivos 
 enum Enum_TipoObjetivo {
-    general = 'General',
-    especifico = 'Especifico',
+    GENERAL = 'GENERAL',
+    ESPECIFICO = 'ESPECIFICO',
 }
 
 // enumerador de Estado inscripcion 

@@ -1,3 +1,4 @@
+import { projectModel } from "../models/proyecto";
 import { userModel } from "../models/usuario";
 
 const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query hace la 
@@ -14,6 +15,7 @@ const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query h
 
 
     Query: {
+        //QUERYS USUARIOS
         // me trae todos los usuarios de la base de datos
         Usuarios: async (parent, args) => {
 
@@ -32,11 +34,29 @@ const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query h
         //     console.log("soy usuario solito", usuario);
         //     return usuario;
         // },
+
+        // QUERYS PROYECTOS
+        Proyectos: async (parent, args) => {
+
+            const proyectos = await projectModel.find().populate('lider')
+            console.log("todos los proyectos:")
+            return proyectos;
+        },
+
+        Proyecto: async (parent, args) => {
+
+            const proyecto = await projectModel.find({ nombre: args.nombre }).populate('lider')
+            console.log("un solo proyecto :", args.nombre);
+            return proyecto[0];
+        }
+
     },
 
 
 
     Mutation: {
+
+        // MUTATIONS DE USUARIOS
         crearUsuario: async (parent, args) => {
 
             const usuarioCreado = await userModel.create({
@@ -108,7 +128,64 @@ const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query h
             return usuarioEditado;
         },
 
+
+        // MUTATIONS DE PROYECTOS
+        crearProyecto: async (parent, args) => {
+            const proyectoCreado = await projectModel.create({
+
+                nombre: args.nombre,
+                objetivos: args.objetivos,
+                presupuesto: args.presupuesto,
+                fechaInicio: args.fechaInicio,
+                fechaFin: args.fechaFin,
+                lider: args.lider,
+
+            });
+
+            if (Object.keys(args).includes('estado')) {
+
+                proyectoCreado.estado = args.estado;
+            };
+            if (Object.keys(args).includes('fase')) {
+
+                proyectoCreado.fase = args.fase;
+            };
+
+            return proyectoCreado;
+        },
+
+        eliminarProyecto: async (parent, args) => {
+            const proyectoEliminado = await projectModel.findOneAndDelete({
+                nombre: args.nombre
+            });
+            return proyectoEliminado;
+        },
+
+        editarProyecto: async (parent, args) => {
+
+            const proyectoEditado = await projectModel.findOneAndUpdate({ _id: args._id }, {
+
+                nombre: args.nombre,
+                objetivos:args.objetivos,
+                presupuesto: args.presupuesto,
+                fechaInicio: args.fechaInicio,
+                fechaFin: args.fechaFin,
+                estado: args.estado,
+                fase: args.fase,
+                lider:args.lider,
+
+
+            });
+            console.log("proyecto editado",proyectoEditado)
+            return proyectoEditado;
+        },
+
+
+
+
+
     },
+
 
 };
 

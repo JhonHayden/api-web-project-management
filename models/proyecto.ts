@@ -55,13 +55,13 @@ const projectSchema = new Schema<Project>({
     estado: {
         type: String,
         enum: Enum_EstadoProyecto,
-        default: Enum_EstadoProyecto.inactivo, // valor inicial por defecto 
+        default: Enum_EstadoProyecto.INACTIVO, // valor inicial por defecto 
 
     },
     fase: {
         type: String,
         enum: Enum_FaseProyecto,
-        default: Enum_FaseProyecto.nula,
+        default: Enum_FaseProyecto.NULA,
     },
     lider: {
         type: Schema.Types.ObjectId, // va ser de tipo ObjectId el cual es el _id en mongo del usuario en la colecion u
