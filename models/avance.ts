@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";// me permite poder usar un esquema y un modelo
-import { projectModel } from "./project";
-import { userModel } from "./user";
+import { projectModel } from "./proyecto";
+import { userModel } from "./usuario";
 
 interface Avance {
 // como buena practica colocar primero los campos que son propios del modelos y por ultimo las relaciones
@@ -43,6 +43,6 @@ const avanceSchema = new Schema<Avance>({
 });
 
 // nodelo avance
-const avanceModel = model('Avance', avanceSchema);
+const avanceModel = model('Avance', avanceSchema, "Avances");
 
 export { avanceModel }

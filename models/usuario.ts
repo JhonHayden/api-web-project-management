@@ -64,7 +64,7 @@ const userSchema = new Schema<User>({
         type: String,
         // required: true,
         enum: Enum_EstadoUsuario, // enumerador
-        default: Enum_EstadoUsuario.pendiente, //valor por defecto 
+        default: Enum_EstadoUsuario.PENDIENTE, //valor por defecto 
     }
 
 });
@@ -72,7 +72,7 @@ const userSchema = new Schema<User>({
 // modelo usuario : este usa el esquema y sera el usado para hacer los query a la base datos 
 // el modelo nos permite atraves de el hacer la conexion a la coleccion de mongo y con este se hace todas
 // las operaciones a la base de datos 
-const userModel = model('User', userSchema); // model funcion recibe como argumento primero un nombre del
+const userModel = model('User', userSchema,"Usuarios"); // model funcion recibe como argumento primero un nombre del
 // modelo dentro del contexto de mongoose (User), el segundo es el esquema y un 
 // tercer argumento opcional que es el nombre como tal de la coleccion en mongo db
 

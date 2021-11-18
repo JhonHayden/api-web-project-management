@@ -5,9 +5,7 @@ import { connect } from "mongoose";// importamos el metodo connect You can conne
 const conectarBD = async () => { // funcion que me retorna la conexion a la base de datos .. el metodo
     // connect recibe como argumento el String de conexion a la base de datos 
 
-    return await connect(
-        'mongodb+srv://admin:admin@clusterwebprojectmanage.0lp19.mongodb.net/gestionProyectos?retryWrites=true&w=majority'
-        ).then(() => { // despues de conectarse a la base de datos ejecuta el entonces .then si se conecto bien si no ejecuta
+    return await connect(process.env.DATABASE_URL).then(() => { // despues de conectarse a la base de datos ejecuta el entonces .then si se conecto bien si no ejecuta
             // el .catch
             console.log("Conexion exitosa")
         }).catch((error) => {

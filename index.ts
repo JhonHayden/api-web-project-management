@@ -1,138 +1,52 @@
-import conectarBD from './db/db'; // importo la funcion conectarBD para poder usarla en mi index.js que tendra
-// todas las llamadas a funciones y configuraciones del backend es decir el index.js representa el server
-import { userModel } from './models/user';
-import { Enum_EstadoUsuario, Enum_RolUsuario, Enum_TipoObjetivo } from "./models/enumeradores";
-import { projectModel } from './models/project';
+import express from 'express';
+import cors from 'cors';
+import { ApolloServer } from 'apollo-server-express';
+import dotenv from 'dotenv';
+import conectarBD from './db/db';
+import { typeDefs } from './graphql/types';// para usar mis tipos o modelos definidos de mis colecciones en graphql
+import { resolvers } from './graphql/resolvers';
+
+
+//CONFIGURACIONES DEL SERVIDOR DE EXPRESS (app) Y EL SERVIDOR DE GRAPHQL(server)
+
+dotenv.config(); // me permite usar las variables de entorno en toda la aplicaciòn
+
+const server = new ApolloServer({ // definicion, declaracion e instancia de un servidor de graphQL
+
+    // propiedades del server 
+    typeDefs: typeDefs,// tipos ... definiciones de los tipos de nuestros modelos de las colecciones 
+    // definiciones de nuestros modelos // le paso los typeDfes del archivo types.ts de la carpeta graphql
+    resolvers: resolvers,// le paso resolvers del archivo resolver.ts de la carpeta graphql
+
+    // el desarrollo de graphQL se basa en estas dos propiedades, en su definicion 
+});
 
 
 
-const main = async () => { // funcion principal me retorna la conexion a la BD
-    await conectarBD(); // tiene un await por que es una tarea que se debe esperar por una respuesta
-    // de un sofware externo como es la base de datos de mongoDB
+const app = express(); // definicione de la aplicacion de express 
 
+// uso de Middleware
+app.use(express.json()); // permite que los request sean en formato json
 
-    // DESPUES DE LA CONEXION VAN LOS QUERY A LA BASE DE DATOS USANDO EL MODELO:
-
-    
-
+app.use(cors()); // me permite hacer request de muchos origenes 
 
 
 
+// usaremos el servidor de Express para encender el servidor de graphql 
+app.listen({ port: process.env.PORT || 4000 }, async () => { // corre el servidor, prende el servidor de Express (app)
+    //process.env.PORT:  me permite usar la varible de entorno del puerto es decir me trae el valor de la variable 
+    // definida como PORT del archivo .env.  si no encuentra este valor ya pone la otra opcion de la logica or el numero 4000 
+
+    await conectarBD(); // conexion a la bases de datos de mongoDB
+
+    await server.start();// corre, prende, enciende e inicia el servidor de graphQL, este 
+    // servidor nos permite generar la ruta para todos los request del front 
+
+    server.applyMiddleware({ app })// permite usar al servidor de grahpQL (server), los middlewares mismos
+    //  del servidor de express (app), es decir los mismos middlewares que defina para el servidor 
+    // de express (app) los usa el servidor de graphql (server) 
+
+    console.log("Servidor de graphQL listo")
+});
 
 
-
-
-
-
-
-    const proyectoCreado = await projectModel.find({ _id: '6193132e201eeab51ccd7c33' });
-
-    console.log(" consultado proyecto creado es :",JSON.stringify(proyectoCreado));
-
-
-    // const usuarioInicial = await userModel.create({ // query para crear un usuario (un documento) en la coleccion Users
-    //     identificacion: '94504954',
-    //     nombre: 'ARLEX',
-    //     apellido: 'JIMENEZ LOPEZ',
-    //     correo: 'alexjimenezlopez0608@gmail.com',
-    //     rol: Enum_RolUsuario.estudiante,
-    //     // estado: Enum_EstadoUsuario.pendiente,
-
-    // });
-
-    // // METODO CREAR DEL CRUD DE PROYECTOS
-    // const proyecto = await projectModel.create({
-    //     nombre: 'proyecto1',
-    //     objetivos: [
-    //         {
-    //             descripcion: 'objetivo general',
-    //             tipo: Enum_TipoObjetivo.general
-    //         },
-    //         {
-    //             descripcion: 'objetivo especifico1',
-    //             tipo: Enum_TipoObjetivo.especifico
-    //         },
-    //         {
-    //             descripcion: 'objetivo especifico2',
-    //             tipo: Enum_TipoObjetivo.especifico
-    //         }
-    //     ],
-    //     presupuesto: 100000,
-    //     fechaInicio: Date.now(),
-    //     fechaFin: new Date('2021/12/1'),
-    //     lider: usuarioInicial._id,
-
-    // });
-
-    // // METODO CONSULTAR, LEER Y OBTENER DEL CRUD DE PROYECTOS
-    // // const proyecto = await projectModel.find({nombre: 'Proyecto 1'}).populate('lider');// me trae el proyecto junto con el
-    // // lider completo . el metodo populate funciona solo en la parte many y  traer el one de la relacion es
-    // // decir la many es proyectos y me trea el one de la relacion que es un solo usuario lider pero en el caso de 
-    // // la parte one el usuario lider y traerme el many los proyectos no lo puede hacer el metodo ´populate()
-    // console.log('El proyecto es : ', proyecto);
-
-
-    // METODO CREAR DEL CRUD DE USUARIOS
-    // await userModel.create({ // query para crear un usuario (un documento) en la coleccion Users
-    //     identificacion: '1112957837',
-    //     nombre: 'JUNIOR ALEXANDER',
-    //     apellido: 'OSPINA LOAIZA',
-    //     correo: 'alexanderospinaloaiza1988@gmail.com',
-    //     rol: Enum_RolUsuario.estudiante,
-    //     // estado: Enum_EstadoUsuario.pendiente,
-
-    // }).then((usuario) => {
-    //     console.log("usuario creado: ", usuario);
-
-    // }).catch((error) => {
-    //     console.error("error creando usuario: ", error)
-    // });//la funcion create() es una Promise por lo tanto se debe poner un await a dicho uso del metodo create ()
-    // una promesa son codigos que tengo que esperar hasta que se termine de ejecutar por eso se usa el await
-    //dado que es una conexion a la base de datos debo esperar por esto
-
-
-    //     // METODO CONSULTAR, LEER Y OBTENER DEL CRUD DE USUARIOS
-
-    //     await userModel.find().then((usuarios) => {
-    //         console.log("usuarios : ", usuarios);
-
-    //     }).catch((error) => {
-    //         console.error("error obteniendo usuarios : ", error)
-
-    //     });
-
-    // // METODO CONSULTAR, LEER Y OBTENER UN USUARIO ESPECIFICO DEL CRUD DE USUARIOS
-
-    // await userModel.findOne({correo:'hayden@gmail.com'}).then((usuario) => {
-    //     console.log("usuario encontrado por correo: ", usuario);
-    // }).catch((error) => {
-    //     console.error("Error encontrando usuario por correo", error);
-    // })
-
-    //  // METODO EDITAR DEL CRUD DE USUARIOS
-    //     await userModel.findOneAndUpdate({correo:'jhonhayd@hotmail.com'}, {  // me permite modificar un documento de
-    //         // la coleccion users recibe como parametro el filtro para saber cual documento modificar y el otro
-    //         // parametro son los campos a modificar con sus valores para modificar
-    //         nombre:'Dios todo poderoso'
-
-    //     }).then((usuario) => {  // los .then ejecutan una funcion .. tipo arrow function despues de que se ejecuta
-    //         // el metodo  findOneAndUpdate . se puede colocar cualquier tipo de funcion no debe ser solo arrow function
-    //         // se puede de cualquier tipo
-    //         console.log("usuario actualizado : ", usuario);
-
-    //     }).catch((error) => {
-    //         console.error("error actualizando usuario : ", error)
-
-    //     });
-
-    //  // METODO ELIMINAR DEL CRUD DE USUARIOS
-
-    //  await userModel.findOneAndDelete({correo:'alexjimenezlopez0608@gmail.com'}).then((usuario) => {
-    //      console.log("Usuario eliminado: ", usuario);
-    //  }).catch((error) => {
-    //      console.error("Error eliminando usuario: ", error);
-    //  })
-
-}
-
-main(); // llamado a la ejecucion de la funcion principal

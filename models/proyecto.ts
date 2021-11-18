@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";// me permite poder usar un esquema y un modelo
 import { Enum_EstadoProyecto, Enum_FaseProyecto, Enum_TipoObjetivo } from "./enumeradores";
-import { userModel } from "./user";
+import { userModel } from "./usuario";
 
 
 // codigo para definir tipos nuevos de datos de mis campos me permite tener un control de los tipos cuando 

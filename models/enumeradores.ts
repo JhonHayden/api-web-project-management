@@ -1,13 +1,13 @@
 // definicion de enumeradores coleccion usuario:  es un objeto 
 enum Enum_RolUsuario {
-    estudiante = 'Estudiante',
-    lider = 'Lider',
-    administrador = 'Administrador',
+    ESTUDIANTE = 'ESTUDIANTE',
+    LIDER = 'LIDER',
+    ADMINISTRADOR = 'ADMINISTRADOR',
 }
 enum Enum_EstadoUsuario {
-    pendiente = 'Pendiente',
-    autorizado = 'Autorizado',
-    no_autorizado = 'No Autorizado',
+    PENDIENTE = 'PENDIENTE',
+    AUTORIZADO = 'AUTORIZADO',
+    NO_AUTORIZADO = 'NO_AUTORIZADO',
 }
 
 // definicion de enumeradores coleccion proyectos:  es un objeto 
