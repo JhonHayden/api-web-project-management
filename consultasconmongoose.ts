@@ -1,8 +1,8 @@
 import conectarBD from './db/db'; // importo la funcion conectarBD para poder usarla en mi index.js que tendra
 // todas las llamadas a funciones y configuraciones del backend es decir el index.js representa el server
-import { userModel } from './models/usuario';
-import { Enum_EstadoUsuario, Enum_RolUsuario, Enum_TipoObjetivo } from "./models/enumeradores";
-import { projectModel } from './models/proyecto';
+import { userModel } from './models/usuario/usuario';
+import { Enum_EstadoUsuario, Enum_RolUsuario, Enum_TipoObjetivo } from "./models/enumeradores/enumeradores";
+import { projectModel } from './models/proyecto/proyecto';
 
 
 

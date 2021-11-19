@@ -3,7 +3,7 @@ import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import conectarBD from './db/db';
-import { typeDefs } from './graphql/types';// para usar mis tipos o modelos definidos de mis colecciones en graphql
+import { tipos } from './graphql/types';// para usar mis tipos o modelos definidos de mis colecciones en graphql
 import { resolvers } from './graphql/resolvers';
 
 
@@ -14,7 +14,7 @@ dotenv.config(); // me permite usar las variables de entorno en toda la aplicaci
 const server = new ApolloServer({ // definicion, declaracion e instancia de un servidor de graphQL
 
     // propiedades del server 
-    typeDefs: typeDefs,// tipos ... definiciones de los tipos de nuestros modelos de las colecciones 
+    typeDefs: tipos,// tipos ... definiciones de los tipos de nuestros modelos de las colecciones 
     // definiciones de nuestros modelos // le paso los typeDfes del archivo types.ts de la carpeta graphql
     resolvers: resolvers,// le paso resolvers del archivo resolver.ts de la carpeta graphql
 

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";// me permite poder usar un esquema y un modelo
-import { projectModel } from "./proyecto";
-import { userModel } from "./usuario";
+import { projectModel } from "../proyecto/proyecto";
+import { userModel } from "../usuario/usuario";
 
 interface Avance {
 // como buena practica colocar primero los campos que son propios del modelos y por ultimo las relaciones
