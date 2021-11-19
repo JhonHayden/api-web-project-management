@@ -32,8 +32,8 @@ enum Enum_TipoObjetivo {
 
 // enumerador de Estado inscripcion 
 enum Enum_EstadoInscripcion {
-    acertada = 'Aceptada',
-    rechazada = 'Rechazada',
+    ACEPTADA = 'ACEPTADA',
+    RECHAZADA = 'RECHAZADA',
 }
 export {
     Enum_RolUsuario,
