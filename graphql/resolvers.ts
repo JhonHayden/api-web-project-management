@@ -1,3 +1,4 @@
+import { avanceModel } from "../models/avance";
 import { projectModel } from "../models/proyecto";
 import { userModel } from "../models/usuario";
 
@@ -45,9 +46,29 @@ const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query h
 
         Proyecto: async (parent, args) => {
 
-            const proyecto = await projectModel.find({ nombre: args.nombre }).populate('lider')
+            const proyecto = await projectModel.find({ _id: args._id }).populate('lider')
             console.log("un solo proyecto :", args.nombre);
             return proyecto[0];
+        },
+
+
+        // QUERYS AVANCES
+        Avances: async (parent, args) => {
+
+            const avances = await avanceModel.find()
+                .populate('proyecto')
+                .populate('creadoPor')
+            console.log("todos los Avances:")
+            return avances;
+        },
+
+        Avance: async (parent, args) => {
+
+            const avance = await avanceModel.find({ _id: args._id })
+                .populate('proyecto')
+                .populate('creadoPor')
+            console.log("un solo Avance :", args.descripcion);
+            return avance[0];
         }
 
     },
@@ -156,7 +177,7 @@ const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query h
 
         eliminarProyecto: async (parent, args) => {
             const proyectoEliminado = await projectModel.findOneAndDelete({
-                nombre: args.nombre
+                _id: args._id,
             });
             return proyectoEliminado;
         },
@@ -166,18 +187,58 @@ const resolvers = {  // existen dos tipos de resolver (Query y mutacion) Query h
             const proyectoEditado = await projectModel.findOneAndUpdate({ _id: args._id }, {
 
                 nombre: args.nombre,
-                objetivos:args.objetivos,
+                objetivos: args.objetivos,
                 presupuesto: args.presupuesto,
                 fechaInicio: args.fechaInicio,
                 fechaFin: args.fechaFin,
                 estado: args.estado,
                 fase: args.fase,
-                lider:args.lider,
+                lider: args.lider,
 
 
             });
-            console.log("proyecto editado",proyectoEditado)
+            console.log("proyecto editado", proyectoEditado)
             return proyectoEditado;
+        },
+
+
+
+        // MUTATIONS DE AVANCES
+        crearAvance: async (parent, args) => {
+            const avanceCreado = await avanceModel.create({
+
+                fecha: args.fecha,
+                descripcion: args.descripcion,
+                observaciones: args.observaciones,
+                proyecto: args.proyecto,
+                creadoPor: args.creadoPor,
+
+            });
+
+            return avanceCreado;
+        },
+
+        eliminarAvance: async (parent, args) => {
+            const avanceEliminado = await avanceModel.findOneAndDelete({
+                _id: args._id,
+            });
+            return avanceEliminado;
+        },
+
+        editarAvance: async (parent, args) => {
+
+            const avanceEditado = await avanceModel.findOneAndUpdate({ _id: args._id }, {
+
+                fecha: args.fecha,
+                descripcion: args.descripcion,
+                observaciones: args.observaciones,
+                proyecto: args.proyecto,
+                creadoPor: args.creadoPor,
+
+
+            });
+            console.log("avance editado", avanceEditado)
+            return avanceEditado;
         },
 
 

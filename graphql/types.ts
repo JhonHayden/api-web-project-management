@@ -80,7 +80,6 @@ const typeDefs = gql`
 
     input crearObjetivo{
 
-        
         descripcion:String!
         tipo:Enum_TipoObjetivo!
     }
@@ -96,11 +95,27 @@ const typeDefs = gql`
         fase:Enum_FaseProyecto!
         lider:Usuario!
     }
+
+    
+    type Avance {
+        _id:ID!
+        fecha:Date!
+        descripcion:String!
+        observaciones:[String]
+        proyecto:Proyecto!
+        creadoPor:Usuario!
+
+    }
+
+
      type Query{   
         Usuarios:[Usuario]
         Usuario(_id:String!):Usuario
         Proyectos:[Proyecto]
-        Proyecto(nombre:String!):Proyecto
+        Proyecto(_id:String!):Proyecto
+        Avances:[Avance]
+        Avance(_id:String!):Avance
+
 
     }
 
@@ -129,10 +144,14 @@ const typeDefs = gql`
             estado:Enum_EstadoUsuario
         ):Usuario
 
+
+
+
+
         crearProyecto(
             nombre: String!
-            objetivos: [crearObjetivo]
-            presupuesto: Float
+            objetivos: [crearObjetivo]!
+            presupuesto: Float!
             fechaInicio:Date!
             fechaFin:Date!
             estado: Enum_EstadoProyecto
@@ -141,7 +160,7 @@ const typeDefs = gql`
         ):Proyecto
 
         eliminarProyecto(
-            nombre:String!
+            _id:String
         ):Proyecto
 
         editarProyecto(
@@ -155,6 +174,31 @@ const typeDefs = gql`
             fase:Enum_FaseProyecto
             lider:String
         ):Proyecto
+
+
+
+
+
+        crearAvance(
+            fecha:Date!
+            descripcion:String!
+            observaciones:[String]
+            proyecto:String!
+            creadoPor:String!
+        ):Avance
+
+        eliminarAvance(
+            _id:String
+        ):Avance
+
+        editarAvance(
+            _id:ID!
+            descripcion:String
+            observaciones:[String]
+            proyecto:String
+            creadoPor:String
+            
+        ):Avance
     }
     `;
 
