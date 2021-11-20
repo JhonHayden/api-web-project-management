@@ -18,14 +18,20 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
         // QUERYS PROYECTOS
         Proyectos: async (parent, args) => {
 
-            const proyectos = await projectModel.find().populate('lider')
+            const proyectos = await projectModel.find()
+            .populate('lider')
+            .populate('avances')
+            .populate('inscripciones')
             console.log("todos los proyectos:",proyectos);
             return proyectos;
         },
 
         Proyecto: async (parent, args) => {
 
-            const proyecto = await projectModel.find({ _id: args._id }).populate('lider')
+            const proyecto = await projectModel.find({ _id: args._id })
+            .populate('lider')
+            .populate('avances')
+            .populate('inscripciones')
             console.log("un solo proyecto :", args.nombre);
             return proyecto[0];
         },
