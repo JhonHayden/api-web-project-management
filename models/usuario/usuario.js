@@ -1,20 +1,11 @@
-import { Schema, model } from "mongoose";// me permite poder usar un esquema y un modelo
-
-import { Enum_EstadoUsuario, Enum_RolUsuario } from "../enumeradores/enumeradores";
+import mongoose from "mongoose"; // me permite poder usar un esquema y un modelo
 
 // codigo para definir tipos nuevos de datos de mis campos me permite tener un control de los tipos 
-interface User {
-    identificacion: string; // estos son tipos de datos de typescript
-    nombre: string; // estos son tipos de datos de typescript
-    apellido: string;  // estos son tipos de datos de typescript
-    correo: string;  // estos son tipos de datos de typescript
-    rol: Enum_RolUsuario;  // estos son tipos de datos de typescript
-    estado: Enum_EstadoUsuario;
-}
 
+const {Schema, model} = mongoose;
 // Esquema de la coleccion Usuarios
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema({
 
     // esquema y estructura de los campos de la coleccion Usuarios, formato de un documento en la base de datos
     identificacion: {
@@ -58,13 +49,13 @@ const userSchema = new Schema<User>({
     rol: {
         type: String,
         required: true,
-        enum: Enum_RolUsuario, // enumerador 
+        enum:['ESTUDIANTE','LIDER','ADMINISTRADOR'], // enumerador 
     },
     estado: {
         type: String,
         // required: true,
-        enum: Enum_EstadoUsuario, // enumerador
-        default: Enum_EstadoUsuario.PENDIENTE, //valor por defecto 
+        enum: ['PENDIENTE','AUTORIZADO','NO_AUTORIZADO'], // enumerador
+        default: 'PENDIENTE', //valor por defecto 
     }
 
 });

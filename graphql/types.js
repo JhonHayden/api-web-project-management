@@ -1,9 +1,9 @@
 import { gql } from "apollo-server-express";
-import { tiposEnumeradores } from "../models/enumeradores/tipos";
-import { tiposProyecto } from "../models/proyecto/tipos";
-import { tiposUsuario } from "../models/usuario/tipos";
-import { tiposAvance } from "../models/avance/tipos";
-import { tiposInscripcion } from "../models/inscripcion/tipos";
+import { tiposEnumeradores } from "../models/enumeradores/tipos.js";
+import { tiposProyecto } from "../models/proyecto/tipos.js";
+import { tiposUsuario } from "../models/usuario/tipos.js";
+import { tiposAvance } from "../models/avance/tipos.js";
+import { tiposInscripcion } from "../models/inscripcion/tipos.js";
 // definicion de tipos globales o input globales 
 
 //  scalar Date me permite poder usar el tipo Date para la fechas 

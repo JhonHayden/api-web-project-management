@@ -1,4 +1,4 @@
-import { projectModel } from "./proyecto";
+import { projectModel } from "./proyecto.js";
 
 const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion) Query hace la 
     // operacion de leer obtener get datos de la base de datos es decir hace la R de un CRUD
