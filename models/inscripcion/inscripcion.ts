@@ -18,27 +18,30 @@ const inscripcionSchema = new Schema<Inscripcion>({
 
     fechaIngreso: {
         type: Date,
-        required: true,
+        default:null,
     },
     fechaEgreso: {
         type: Date,
-        required: true,
+        default:null,
     },
     estado: {
         type: String,
         enum: Enum_EstadoInscripcion,
-        required: true,
+        default: Enum_EstadoInscripcion.PENDIENTE,
     },
     proyecto: {
         type: Schema.Types.ObjectId,
         ref: projectModel,
         required: true,
+        unique:false,
 
     },
     estudiante: {
         type: Schema.Types.ObjectId,
         ref: userModel,
         required: true,
+        unique:false,
+
     },
 });
 

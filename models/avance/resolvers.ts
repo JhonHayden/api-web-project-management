@@ -14,7 +14,7 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
 
 
     Query: {
-        
+
         // QUERYS AVANCES
         Avances: async (parent, args) => {
 
@@ -32,7 +32,15 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
                 .populate('creadoPor')
             console.log("un solo Avance :", args.descripcion);
             return avance[0];
-        }
+        },
+
+        filtrarAvance: async (parent, args) => {
+            const avanceFiltrado = await avanceModel.find({ proyecto: args.idProyecto })
+                .populate('proyecto')
+                .populate('creadoPor');
+
+            return avanceFiltrado;
+        },
 
     },
 
@@ -77,6 +85,8 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
             console.log("avance editado", avanceEditado)
             return avanceEditado;
         },
+
+
 
     },
 

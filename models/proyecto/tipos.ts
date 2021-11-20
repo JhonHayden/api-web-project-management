@@ -14,10 +14,7 @@ import { gql } from "apollo-server-express";
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
 
-//  scalar Date me permite poder usar el tipo Date para la fechas 
-// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
-//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
-// como scalar Date, esto hace que sea un tipo personalizado  
+ 
 const tiposProyecto = gql`
 
     type Objetivo{
@@ -65,7 +62,7 @@ const tiposProyecto = gql`
         ):Proyecto
 
         eliminarProyecto(
-            _id:String
+            _id:String!
         ):Proyecto
 
         editarProyecto(
