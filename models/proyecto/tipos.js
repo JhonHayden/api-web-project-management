@@ -40,6 +40,7 @@ const tiposProyecto = gql`
         fase:Enum_FaseProyecto!
         lider:Usuario!
         avances:[Avance]!
+        inscripciones:[Inscripcion]!
     }
        
      type Query{   

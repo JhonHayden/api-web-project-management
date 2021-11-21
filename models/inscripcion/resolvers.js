@@ -21,7 +21,7 @@ const resolversInscripcion = {  // existen dos tipos de resolver (Query y mutaci
             const inscripcion = await inscripcionModel.find()
                 .populate('estudiante')
                 .populate('proyecto')
-            console.log("todas las inscripciones:",inscripcion)
+            console.log("todas las inscripciones:", inscripcion)
             return inscripcion;
         },
 
@@ -30,7 +30,7 @@ const resolversInscripcion = {  // existen dos tipos de resolver (Query y mutaci
             const inscripcion = await inscripcionModel.find({ _id: args._id })
                 .populate('estudiante')
                 .populate('proyecto')
-            console.log("una sola inscripcion", args,inscripcion);
+            console.log("una sola inscripcion", args, inscripcion);
             return inscripcion[0];
         },
 
@@ -71,18 +71,35 @@ const resolversInscripcion = {  // existen dos tipos de resolver (Query y mutaci
 
             });
 
-            if(args.estado ==="ACEPTADA"){
+            if (args.estado === "ACEPTADA") {
 
-                inscripcionEditada.fechaIngreso= new Date;
+                inscripcionEditada.fechaIngreso = Date.now();// Date.now() 
+                // permite colocarle la fecha actual en el momento cuado se acepta
+                // la inscripcion 
 
-            }else if (args.estado ==="RECHAZADA"){
 
-                inscripcionEditada.fechaEgreso= new Date;
+            } else if (args.estado === "RECHAZADA") {
+
+                inscripcionEditada.fechaEgreso = Date.now();
 
             };
 
             console.log("inscripcion editada", inscripcionEditada)
             return inscripcionEditada;
+        },
+
+
+
+        aprobarInscripcion: async (parent, args) => {
+
+
+            const inscripcionAprobada = await inscripcionModel.findByIdAndUpdate(args._id, {
+                estado: "ACEPTADA",
+                fechaIngreso: Date.now(),
+
+            });
+            return inscripcionAprobada;
+
         },
 
     },

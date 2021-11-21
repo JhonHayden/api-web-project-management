@@ -19,8 +19,10 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
         Proyectos: async (parent, args) => {
 
             const proyectos = await projectModel.find()
-            // .populate('lider')
-            .pupulate('avances')
+                .populate('lider')
+                .populate('avances')
+                .populate('inscripciones')
+                
             console.log("todos los proyectos:", proyectos);
             return proyectos;
         },
@@ -28,8 +30,10 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
         Proyecto: async (parent, args) => {
 
             const proyecto = await projectModel.find({ _id: args._id })
-                // .populate('lider')
-                .pupulate('avances')
+                .populate('lider')
+                .populate('avances')
+                .populate('inscripciones')
+
             console.log("un solo proyecto :", args.nombre);
             return proyecto[0];
         },

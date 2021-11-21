@@ -83,6 +83,23 @@ projectSchema.virtual('avances', {
     // va el campo de avance donde me relaciona el modelo de proyecto
     // esto nos permite hacer en proyectos un populate de los avances 
 });
+projectSchema.virtual('inscripciones', {
+    ref: 'Inscripcion', // la referencia va el nombre en el contextod de mongo del modelo a popular(es decir el primer
+    //parametro de model
+    localField: '_id',
+    foreignField: 'proyecto'// campo donde esta la parte one de la relacion en el modelo de avances es decir
+    // va el campo de avance donde me relaciona el modelo de proyecto
+    // esto nos permite hacer en proyectos un populate de los avances 
+
+    // EL metodo virtual de Schema de mongoose recibe en este caso un primer 
+    // parametro que es el nombre del campo en el tipo proyecto de graphql que 
+    // representa la relacion entre proyectos y inscripciones, segundo parametro 
+    // es un objeto con tres atributos ref = es el nombre que se definio al contexto 
+    // de mongo del modelo del metodo model de la coleccion a relacionar;
+    // localfield es el id de la relacion coleccion inscripciones 
+    // y el foreignField= es el campo en el tipo y modelo de inscripcion que me 
+    // representa la relacion con el modelo de proyecto
+});
 
 
 // modelo proyecto

@@ -37,6 +37,10 @@ const tiposInscripcion = gql`
             estudiante:String
         ):Inscripcion
 
+        aprobarInscripcion(
+            _id:String!
+        ):Inscripcion 
+
     }
 
 `;
