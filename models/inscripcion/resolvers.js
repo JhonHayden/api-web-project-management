@@ -48,7 +48,9 @@ const resolversInscripcion = {
 
                 proyecto: args.proyecto,
                 estudiante: args.estudiante,
-            });
+                estado:args.estado, // data permitida a editar si no se pone aqui no me permite editar 
+                // el estado ni sale el enumerador de aceptada rechazada o pendiente 
+            }, { new: true });
 
             if (args.estado === "ACEPTADA") {
 

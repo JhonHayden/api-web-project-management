@@ -64,7 +64,7 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
                 observaciones: args.observaciones,
                 proyecto: args.proyecto,
                 creadoPor: args.creadoPor,
-            });
+            }, { new: true });
             console.log("avance editado", avanceEditado)
             return avanceEditado;
         },
