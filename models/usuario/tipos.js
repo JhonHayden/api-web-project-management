@@ -13,10 +13,7 @@ import { gql } from "apollo-server-express";
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
 
-//  scalar Date me permite poder usar el tipo Date para la fechas 
-// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
-//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
-// como scalar Date, esto hace que sea un tipo personalizado  
+
 const tiposUsuario = gql`
 
     type Usuario { 
@@ -26,7 +23,11 @@ const tiposUsuario = gql`
         apellido:String!
         correo:String!
         rol:Enum_RolUsuario!
-        estado:Enum_EstadoUsuario
+        estado:Enum_EstadoUsuario!
+        proyectosLiderados:[Proyecto!]!
+        inscripciones:[Inscripcion!]!
+        avancesCreados:[Avance]!
+        
 
     }
     input edicionUsuario{
@@ -75,3 +76,6 @@ const tiposUsuario = gql`
     `;
 
 export { tiposUsuario }; // propiedad para el server de ApollServer ubicado en el index.ts
+
+
+

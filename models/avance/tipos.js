@@ -1,5 +1,4 @@
 import { gql } from "apollo-server-express";
-
 // definiciones de los tipos (modelos, estructura de las colecciones)
 
 //los typesDefs son las definiciones y declaracion de las intrucciones de las operaciones a 
@@ -13,12 +12,7 @@ import { gql } from "apollo-server-express";
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
 
-//  scalar Date me permite poder usar el tipo Date para la fechas 
-// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
-//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
-// como scalar Date, esto hace que sea un tipo personalizado  
 const tiposAvance = gql`
-    
     type Avance {
         _id:ID!
         fecha:Date!
@@ -26,18 +20,13 @@ const tiposAvance = gql`
         observaciones:[String]
         proyecto:Proyecto!
         creadoPor:Usuario!
-
     }
-
-
      type Query{   
         
         Avances:[Avance]
         Avance(_id:String!):Avance
-
-
+        filtrarAvance(idProyecto:String!):[Avance]
     }
-
     type Mutation{
               
         crearAvance(
@@ -58,9 +47,7 @@ const tiposAvance = gql`
             observaciones:[String]
             proyecto:String
             creadoPor:String
-            
         ):Avance
     }
     `;
-
 export { tiposAvance }; // propiedad para el server de ApollServer ubicado en el index.ts

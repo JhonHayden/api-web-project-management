@@ -1,6 +1,5 @@
 import { gql } from "apollo-server-express";
 
-
 // definiciones de los tipos (modelos, estructura de las colecciones)
 
 //los typesDefs son las definiciones y declaracion de las intrucciones de las operaciones a 
@@ -13,25 +12,17 @@ import { gql } from "apollo-server-express";
 // de dato son es como una copia de los modelos en mongoose
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
-
-//  scalar Date me permite poder usar el tipo Date para la fechas 
-// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
-//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
-// como scalar Date, esto hace que sea un tipo personalizado  
 const tiposProyecto = gql`
-
     type Objetivo{
         _id:ID!
         descripcion:String!
         tipo:Enum_TipoObjetivo!
     }
-
     input crearObjetivo{
 
         descripcion:String!
         tipo:Enum_TipoObjetivo!
     }
-
     type Proyecto {
         _id:ID!
         nombre:String!
@@ -42,17 +33,15 @@ const tiposProyecto = gql`
         estado:Enum_EstadoProyecto!
         fase:Enum_FaseProyecto!
         lider:Usuario!
+        avances:[Avance]!
+        inscripciones:[Inscripcion]!
     }
-       
      type Query{   
        
         Proyectos:[Proyecto]
         Proyecto(_id:String!):Proyecto
-     
     }
-
     type Mutation{
-        
         crearProyecto(
             nombre: String!
             objetivos: [crearObjetivo]!
@@ -65,7 +54,7 @@ const tiposProyecto = gql`
         ):Proyecto
 
         eliminarProyecto(
-            _id:String
+            _id:String!
         ):Proyecto
 
         editarProyecto(
@@ -79,9 +68,6 @@ const tiposProyecto = gql`
             fase:Enum_FaseProyecto
             lider:String
         ):Proyecto
-
-        
     }
     `;
-
 export { tiposProyecto }; // propiedad para el server de ApollServer ubicado en el index.ts
