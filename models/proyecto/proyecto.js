@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-// me permite poder usar un esquema y un modelo
 import { userModel } from "../usuario/usuario.js";
-
 
 // codigo para definir tipos nuevos de datos de mis campos me permite tener un control de los tipos cuando
 // quiero registrar un nuevo documento en la base de datos
@@ -9,10 +7,8 @@ import { userModel } from "../usuario/usuario.js";
 const { Schema, model } = mongoose;
 
 // Esquema de la coleccion proyectos
-
 const projectSchema = new Schema(
     {
-
         nombre: {
             type: String,
             required: true,
@@ -47,11 +43,10 @@ const projectSchema = new Schema(
             type: String,
             enum: ['ACTIVO', 'INACTIVO'],
             default: 'INACTIVO', // valor inicial por defecto
-
         },
         fase: {
             type: String,
-            enum: ['INICIADO', 'EN_DESARROLLO', 'TERMINADO'],
+            enum: ['INICIADO', 'EN_DESARROLLO', 'TERMINADO','NULA'],
             default: 'NULA',
         },
         lider: {
@@ -61,9 +56,7 @@ const projectSchema = new Schema(
             ref: userModel, // me permite hacer una referencia fuerte, una relacion fuerte entre dos colecciones usuarios
             // y proyectos
         }
-
     },
-
     { // Configuracion requerida para que cuando se renderize un esquema de proyecto me permita sacar los 
         // esquemas vituales , y mostrarlos ahora lo siguiente es ir a los tipos de proyectos y definir el campo
         //  avances en el type de proyecto y que retorne un array de avances y asi por ultimo ir a los resolver
@@ -101,10 +94,6 @@ projectSchema.virtual('inscripciones', {
     // representa la relacion con el modelo de proyecto
 });
 
-
 // modelo proyecto
-
-const projectModel = model('Project', projectSchema, 'Proyectos');
-
-
+const projectModel = model('Proyecto', projectSchema, 'Proyectos');
 export { projectModel };

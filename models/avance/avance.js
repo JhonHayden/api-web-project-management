@@ -1,8 +1,6 @@
 import mongoose from "mongoose";  
-// me permite poder usar un esquema y un modelo
 import { projectModel } from "../proyecto/proyecto.js";
 import { userModel } from "../usuario/usuario.js";
-
 
 const {Schema, model} = mongoose;
 
@@ -12,12 +10,10 @@ const avanceSchema = new Schema({
     fecha: {
         type: Date,
         required: true,
-        
     },
     descripcion: {
         type: String,
         required:true,
-        
     },
     observaciones: [  // esta observaciones son del usuario lider y son despues de crear el avance, no es required
         {
@@ -34,7 +30,6 @@ const avanceSchema = new Schema({
         ref: userModel,
         required:true,
     },
-
 });
 
 // nodelo avance

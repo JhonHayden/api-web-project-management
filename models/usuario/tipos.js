@@ -23,7 +23,11 @@ const tiposUsuario = gql`
         apellido:String!
         correo:String!
         rol:Enum_RolUsuario!
-        estado:Enum_EstadoUsuario
+        estado:Enum_EstadoUsuario!
+        proyectosLiderados:[Proyecto!]!
+        inscripciones:[Inscripcion!]!
+        avancesCreados:[Avance]!
+        
 
     }
     input edicionUsuario{
@@ -72,3 +76,6 @@ const tiposUsuario = gql`
     `;
 
 export { tiposUsuario }; // propiedad para el server de ApollServer ubicado en el index.ts
+
+
+

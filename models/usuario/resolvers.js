@@ -19,12 +19,21 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
         Usuarios: async (parent, args) => {
 
             const usuarios = await userModel.find()
+                .populate('proyectosLiderados') // me permite traer la informacion de la parte many de la relacion one to many de usuario 
+                // y proyectos un usuario lider puede lider varios proyectos entonces con populate virtual puedo traer los proyectos 
+                // liderados como una lista, el parametro que le paso al metodo populate es un campo o atributo de mi type usuario 
+                // el campo virtual proyectosLiderados este es mismo es el primer parametro del metodo virtual de mongoose del Schema
+                .populate('inscripciones')
+                .populate('avancesCreados')
             console.log("soy todos los usuarios", usuarios);
             return usuarios;
         },
         // me trae un solo usuario por el _id que le pase 
         Usuario: async (parent, args) => {
             const usuario = await userModel.find({ _id: args._id })
+                .populate('proyectosLiderados')
+                .populate('inscripciones')
+                .populate('avancesCreados')
             console.log("soy usuario solito", usuario);
             return usuario[0];
         },
@@ -107,7 +116,7 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
                 correo: args.correo,
                 rol: args.rol,
                 estado: args.estado,
-            });
+            }, { new: true });// new : true me permite que en el retorno sea el usuario editado  
             return usuarioEditado;
         },
 
