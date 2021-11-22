@@ -71,7 +71,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                 estado: args.estado,
                 fase: args.fase,
                 lider: args.lider,
-            });
+            }, { new: true });
             console.log("proyecto editado", proyectoEditado)
             return proyectoEditado;
         },
