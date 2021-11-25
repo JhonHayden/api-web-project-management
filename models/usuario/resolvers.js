@@ -87,12 +87,12 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
         // documento, registro a modificar y luego el segundo son los campos que quiero 
         // editar o los campo permitidos para editar
         editarUsuario: async (parent, args) => {
-            const usuarioEditado = await userModel.findOneAndUpdate({ correo: args.correo }, {
+            const usuarioEditado = await userModel.findOneAndUpdate({ _id:args._id }, {
                 identificacion: args.identificacion,
                 nombre: args.nombre,
                 apellido: args.apellido,
                 correo: args.correo,
-                rol: args.rol,
+                rol: args.rol, // el rol no se puede cambiar eso queda pendiente 
                 estado: args.estado,
             }, { new: true });// new : true me permite que en el retorno sea el usuario editado  
             return usuarioEditado;

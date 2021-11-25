@@ -92,6 +92,12 @@ projectSchema.virtual('inscripciones', {
     // localfield es el id de la relacion coleccion inscripciones 
     // y el foreignField= es el campo en el tipo y modelo de inscripcion que me 
     // representa la relacion con el modelo de proyecto
+
+
+    //Los virtual hay que hacerlos en la parte one de la relacion por ejemplo aqui es la parte one 
+    // de la relacion con inscripciones un proyecto tiene muchas inscripciones y una inscripcion de un usuario 
+    // solo a un proyecto es decir uso el virtual en la parte one de la relacion para poder mostrar informacion de la
+    // parte many de la relacion y traerla como un arreglo
 });
 
 // modelo proyecto

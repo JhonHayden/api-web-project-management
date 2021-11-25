@@ -40,6 +40,10 @@ const userSchema = new Schema({
             message: ' El formato del correo electronico no es valido',
         }
     },
+    password: {
+        type:String,
+        required:true,
+    },
     rol: {
         type: String,
         required: true,

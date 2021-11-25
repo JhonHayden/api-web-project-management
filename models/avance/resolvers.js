@@ -30,7 +30,7 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
             return avance[0];
         },
         filtrarAvance: async (parent, args) => {
-            const avanceFiltrado = await avanceModel.find({ proyecto: args.idProyecto })
+            const avanceFiltrado = await avanceModel.find({ _id: args._id })
                 .populate('proyecto')
                 .populate('creadoPor');
             return avanceFiltrado;

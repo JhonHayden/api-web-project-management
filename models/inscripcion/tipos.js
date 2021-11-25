@@ -1,11 +1,12 @@
-import { gql } from "apollo-server-express";
+import { gql } from "apollo-server-express"; // me permite importar la funcion para 
+// generar template o plantillas de consulta del lado del servidor 
 
 const tiposInscripcion = gql`
 
     type Inscripcion {
         _id:ID!
-        fechaIngreso:Date!
-        fechaEgreso:Date!
+        fechaIngreso:Date
+        fechaEgreso:Date
         estado:Enum_EstadoInscripcion!
         proyecto:Proyecto!
         estudiante:Usuario!

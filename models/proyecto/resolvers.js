@@ -14,10 +14,16 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
         // QUERYS PROYECTOS
         Proyectos: async (parent, args) => {
             const proyectos = await projectModel.find()
-                .populate('lider')
-                .populate('avances')
+                .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
+                    path:'avances',
+                    populate:{
+                        path: 'creadoPor',
+                    },
+
+                })
                 .populate('inscripciones')
-                
+                .populate('lider')
+
             console.log("todos los proyectos:", proyectos);
             return proyectos;
         },
