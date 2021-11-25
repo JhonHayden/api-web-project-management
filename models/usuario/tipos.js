@@ -1,5 +1,4 @@
 import { gql } from "apollo-server-express";
-
 // definiciones de los tipos (modelos, estructura de las colecciones)
 
 //los typesDefs son las definiciones y declaracion de las intrucciones de las operaciones a 
@@ -12,11 +11,6 @@ import { gql } from "apollo-server-express";
 // de dato son es como una copia de los modelos en mongoose
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
-
-//  scalar Date me permite poder usar el tipo Date para la fechas 
-// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
-//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
-// como scalar Date, esto hace que sea un tipo personalizado  
 const tiposUsuario = gql`
 
     type Usuario { 
@@ -26,11 +20,12 @@ const tiposUsuario = gql`
         apellido:String!
         correo:String!
         rol:Enum_RolUsuario!
-        estado:Enum_EstadoUsuario
-
+        estado:Enum_EstadoUsuario!
+        proyectosLiderados:[Proyecto!]!
+        inscripciones:[Inscripcion!]!
+        avancesCreados:[Avance]!
     }
     input edicionUsuario{
-        
         identificacion:String
         nombre: String
         apellido:String
@@ -38,12 +33,10 @@ const tiposUsuario = gql`
         rol:Enum_RolUsuario
         estado:Enum_EstadoUsuario
         }
-
     
      type Query{   
         Usuarios:[Usuario]
         Usuario(_id:String!):Usuario
-
     }
 
     type Mutation{
@@ -54,6 +47,7 @@ const tiposUsuario = gql`
             correo:String!
             rol:Enum_RolUsuario!
             estado:Enum_EstadoUsuario
+            password:String!
         ):Usuario
 
         eliminarUsuario(
@@ -63,6 +57,7 @@ const tiposUsuario = gql`
         ):Usuario
 
         editarUsuario(
+            _id:String!
             identificacion:String
             nombre: String
             apellido:String
@@ -70,8 +65,9 @@ const tiposUsuario = gql`
             rol:Enum_RolUsuario
             estado:Enum_EstadoUsuario
         ):Usuario
-
     }
     `;
-
 export { tiposUsuario }; // propiedad para el server de ApollServer ubicado en el index.ts
+
+
+

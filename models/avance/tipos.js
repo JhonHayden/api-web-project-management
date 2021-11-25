@@ -1,5 +1,4 @@
 import { gql } from "apollo-server-express";
-
 // definiciones de los tipos (modelos, estructura de las colecciones)
 
 //los typesDefs son las definiciones y declaracion de las intrucciones de las operaciones a 
@@ -13,40 +12,42 @@ import { gql } from "apollo-server-express";
 
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
 
-//  scalar Date me permite poder usar el tipo Date para la fechas 
-// dado que graphQL solo tiene tipos basicos en String Int Float Boolean y ID 
-//cuando necesito usar tipos diferentes o adicionales como en este caso el Date debo definir estos tipos 
-// como scalar Date, esto hace que sea un tipo personalizado  
-const tiposEnumeradores = gql`
-
-    enum Enum_RolUsuario{
-        ESTUDIANTE
-        LIDER
-        ADMINISTRADOR
+const tiposAvance = gql`
+    type Avance {
+        _id:ID!
+        fecha:Date!
+        descripcion:String!
+        observaciones:[String]
+        proyecto:Proyecto!
+        creadoPor:Usuario!
     }
-
-    enum Enum_EstadoUsuario{
-        PENDIENTE
-        AUTORIZADO
-        NO_AUTORIZADO
+     type Query{   
+        
+        Avances:[Avance]
+        Avance(_id:String!):Avance
+        filtrarAvance(_id:String!):[Avance]
     }
+    type Mutation{
+              
+        crearAvance(
+            fecha:Date!
+            descripcion:String!
+            observaciones:[String]
+            proyecto:String!
+            creadoPor:String!
+        ):Avance
 
-    enum Enum_EstadoProyecto {
-        ACTIVO
-        INACTIVO
-    }
+        eliminarAvance(
+            _id:String
+        ):Avance
 
-    enum Enum_FaseProyecto {
-        INICIADO
-        EN_DESARROLLO
-        TERMINADO
-        NULA
-    }
-
-    enum Enum_TipoObjetivo {
-        GENERAL
-        ESPECIFICO
+        editarAvance(
+            _id:ID!
+            descripcion:String
+            observaciones:[String]
+            proyecto:String
+            creadoPor:String
+        ):Avance
     }
     `;
-
-export { tiposEnumeradores }; // propiedad para el server de ApollServer ubicado en el index.ts
+export { tiposAvance }; // propiedad para el server de ApollServer ubicado en el index.ts
