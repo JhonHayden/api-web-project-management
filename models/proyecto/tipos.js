@@ -23,10 +23,16 @@ const tiposProyecto = gql`
         descripcion:String!
         tipo:Enum_TipoObjetivo!
     }
+
+    input camposObjetivos{
+        descripcion:String!
+        tipo:Enum_TipoObjetivo!
+    }
+
     type Proyecto {
         _id:ID!
         nombre:String!
-        objetivos:[Objetivo]!
+        objetivos:[Objetivo]
         presupuesto:Float!
         fechaInicio:Date!
         fechaFin:Date!
@@ -44,7 +50,7 @@ const tiposProyecto = gql`
     type Mutation{
         crearProyecto(
             nombre: String!
-            objetivos: [crearObjetivo]!
+            objetivos: [crearObjetivo]
             presupuesto: Float!
             fechaInicio:Date!
             fechaFin:Date!
@@ -58,9 +64,8 @@ const tiposProyecto = gql`
         ):Proyecto
 
         editarProyecto(
-            _id:ID!
+            _id:String!
             nombre:String
-            objetivos:[crearObjetivo]
             presupuesto:Float
             fechaInicio:Date
             fechaFin:Date
@@ -68,6 +73,33 @@ const tiposProyecto = gql`
             fase:Enum_FaseProyecto
             lider:String
         ):Proyecto
+
+        crearObjetivo (
+            idProyecto:String!
+            campos:camposObjetivos!
+        ): Proyecto
+
+        editarObjetivo(
+            idProyecto:String!,
+            indexObjetivo:Int!,
+            campos:camposObjetivos!
+            ):Proyecto
+
+        eliminarObjetivo(
+            idProyecto:String!,
+            idObjetivo:String!
+        ):Proyecto
     }
     `;
 export { tiposProyecto }; // propiedad para el server de ApollServer ubicado en el index.ts
+
+
+
+// ESTRUCTURA DE LA MUTACIONES
+
+// crearObjetivo                    --->NOMBRE DE LA MUTACION 
+//      (                               (
+//     idProyecto:String!,           ---> input,       
+//     descripcion:String!,          ---> input,
+//     tipo:Enum_TipoObjetivo!,      ---> input, 
+//       ): Proyecto                 --->): Retorno 

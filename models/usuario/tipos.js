@@ -62,8 +62,13 @@ const tiposUsuario = gql`
             nombre: String
             apellido:String
             correo:String
-            rol:Enum_RolUsuario
             estado:Enum_EstadoUsuario
+            password:String
+        ):Usuario
+
+        editarEstadoUsuario(
+            _id:String!
+            estado:Enum_EstadoUsuario!
         ):Usuario
     }
     `;

@@ -103,6 +103,52 @@ const resolversAutenticacion = {
                     // }
                 }
             }
+            else{
+
+                return {error:"Contraseña incorrecta"}
+            }
+        },
+
+        // mutacion que me genera un nuevo token si el usuario esta autenticado, me actualiza token  
+        actualizarToken: async (parent, args, context) => {// resolver que me genera un nuevo token 
+
+            console.log("SOY CONTEXT LA VARIABLE GLOBAL CONTEXT DE APOLLO SERVER = ", context)
+            if (!context.userData) {
+                return {//muy importante los resolver debe devolvel, retornar el mismo tipo de dato como esta 
+                    // definido en el template o string de graphql de las mutaciones o querys, en este caso este resolvers
+                    // debe retornar un objeto con los atributos opcionales pero minimo uno de typo:
+                    // type Token {
+                    //     token:String
+                    //     error:String
+                    // }
+                    error: "Token no valido"
+                }
+            } else {
+                console.log('si tenemos userData, el token es valido ')// si tenemos el userData el token es valido asi 
+                // que retornamos un nuevo token 
+
+
+                return { // GENERAMOS Y RETORNAMOS EL TOKEN SI LA COMAPARCION ES TRUE ES DECIR SI COINCIDEN LOS HASHING
+                    // Y LAS CONTRASEÑAS SON IGUALES 
+                    token: generateToken({ // generamos el token con la informacion del userData dado que 
+                        // este es el usuario autenticado y esta haciendo request al api 
+                        _id: context.userData._id,
+                        identificacion: context.userData.identificacion,
+                        nombre: context.userData.nombre,             // informacion incrustada en el token payload
+                        apellido: context.userData.apellido,
+                        correo: context.userData.correo,
+                        rol: context.userData.rol,
+                        estado: context.userData.estado,
+                    }),// retornamos un objeto de clave= token : y valor = con el token generado con la informacion 
+                    // del usuario inscrustada 
+                    // devolvelos un type definido en tipos la carpeta utils y es un tipo objeto con dos propiedades 
+                    // objeto retornado las propiedades retornadas son opcionales pero debo enviar siempr el token obviamente 
+                    // type Token {  
+                    //     token:String
+                    //     error:String
+                    // }
+                }
+            }
         }
     }
 };

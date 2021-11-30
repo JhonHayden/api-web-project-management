@@ -19,12 +19,14 @@ const tiposAutenticacion = gql`
             rol:Enum_RolUsuario!
             estado:Enum_EstadoUsuario
             password:String!
-        ):Token!
+        ):Token
 
         login(
             correo:String!
             password:String!
-        ):Token!    
+        ):Token   
+
+        actualizarToken:Token
 
     }
 `;

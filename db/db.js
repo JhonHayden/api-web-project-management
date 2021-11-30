@@ -8,7 +8,7 @@ const conectarBD = async () => { // funcion que me retorna la conexion a la base
 
     return await mongoose.connect(process.env.DATABASE_URL).then(() => { // despues de conectarse a la base de datos ejecuta el entonces .then si se conecto bien si no ejecuta
             // el .catch
-            console.log("Conexion exitosa")
+            console.log("Conexion exitosa a la base de datos de mongoDB")
         }).catch((error) => {
             console.error('Error conectado a la BD', error);
         })
