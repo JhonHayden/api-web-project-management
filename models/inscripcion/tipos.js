@@ -20,7 +20,7 @@ const tiposInscripcion = gql`
 
         crearInscripcion(
             proyecto:String!
-            estudiante:String!
+            estudiante:String
         ):Inscripcion
 
         eliminarInscripcion(_id:String!):Inscripcion

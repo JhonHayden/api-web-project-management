@@ -1,17 +1,32 @@
+import { projectModel } from "../proyecto/proyecto.js";
 import { inscripcionModel } from "./inscripcion.js";
 
-const resolversInscripcion = {  
+const resolversInscripcion = {
 
     Query: {
 
         // QUERYS INSCRIPCIONES
-        Inscripciones: async (parent, args) => {
+        Inscripciones: async (parent, args, context) => {
 
-            const inscripcion = await inscripcionModel.find()
-                .populate('estudiante')
-                .populate('proyecto')
-            console.log("todas las inscripciones:", inscripcion)
-            return inscripcion;
+            if (context.userData.rol === 'LIDER') {
+
+                const proyectos = await projectModel.find({ lider: context.userData._id })
+                console.log('proyectos', proyectos)
+                const inscripciones = proyectos._id
+                console.log(inscripciones)
+                const inscripcion = await inscripcionModel.find({ inscripciones })
+                    .populate('estudiante')
+                    .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
+                        path: 'proyecto',
+                        populate: {
+                            path: 'lider',
+                        },
+
+                    })
+                console.log("todas las inscripciones:", inscripcion)
+                return inscripcion;
+            }
+
         },
         Inscripcion: async (parent, args) => {
 
@@ -26,13 +41,27 @@ const resolversInscripcion = {
     Mutation: {
 
         // MUTATIONS DE INSCRIPCIONES
-        crearInscripcion: async (parent, args) => {
-            const inscripcionCreada = await inscripcionModel.create({
+        crearInscripcion: async (parent, args, context) => {
 
-                proyecto: args.proyecto,
-                estudiante: args.estudiante,
-            });
-            return inscripcionCreada;
+            if (context.userData.rol === 'ESTUDIANTE') {
+
+                const inscripcionCreada = await inscripcionModel.create({
+
+                    proyecto: args.proyecto,
+                    estudiante: context.userData._id,
+                });
+                return inscripcionCreada;
+            } else {
+                const inscripcionCreada = inscripcionModel;
+
+                inscripcionCreada.estado = 'RECHAZADA';// manera de enviar un mensaje y no un null 
+                // cuando el rol no es de un estudiante
+
+
+                return inscripcionCreada;
+            }
+
+
         },
 
         eliminarInscripcion: async (parent, args) => {
@@ -42,29 +71,33 @@ const resolversInscripcion = {
             return inscripcionEliminada;
         },
 
-        editarInscripcion: async (parent, args) => {
+        editarInscripcion: async (parent, args, context) => {
 
-            const inscripcionEditada = await inscripcionModel.findOneAndUpdate({ _id: args._id }, {
+            if (context.userData.rol === 'LIDER') {
 
-                proyecto: args.proyecto,
-                estudiante: args.estudiante,
-                estado:args.estado, // data permitida a editar si no se pone aqui no me permite editar 
-                // el estado ni sale el enumerador de aceptada rechazada o pendiente 
-            }, { new: true });
 
-            if (args.estado === "ACEPTADA") {
+                if (args.estado === "ACEPTADA") {
 
-                inscripcionEditada.fechaIngreso = Date.now();// Date.now() 
-                // permite colocarle la fecha actual en el momento cuado se acepta
-                // la inscripcion 
+                    args.fechaIngreso = Date.now();// Date.now() 
+                    // permite colocarle la fecha actual en el momento cuado se acepta
+                    // la inscripcion 
 
-            } else if (args.estado === "RECHAZADA") {
+                }
 
-                inscripcionEditada.fechaEgreso = Date.now();
-            };
+                const inscripcionEditada = await inscripcionModel.findOneAndUpdate({ _id: args._id }, {
 
-            console.log("inscripcion editada", inscripcionEditada)
-            return inscripcionEditada;
+                    // proyecto: args.proyecto,
+                    // estudiante: args.estudiante,
+                    estado: args.estado,
+                    fechaIngreso: args.fechaIngreso,// data permitida a editar si no se pone aqui no me permite editar 
+                    fechaEgreso: args.fechaEgreso // el estado ni sale el enumerador de aceptada rechazada o pendiente 
+                }, { new: true });
+
+
+                // console.log("inscripcion editada", inscripcionEditada)
+                return inscripcionEditada;
+            }
+
         },
 
         aprobarInscripcion: async (parent, args) => {

@@ -39,7 +39,13 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                         },
 
                     })
-                    .populate('inscripciones')
+                    .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
+                        path: 'inscripciones',
+                        populate: {
+                            path: 'estudiante',
+                        },
+
+                    })
                     .populate('lider')
 
                 console.log("todos los proyectos:", proyectos);
@@ -141,7 +147,11 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                             // lider: args.lider,
                         }, { new: true });
 
-                        await inscripcionModel.updateMany({ estado: "ACEPTADA", fechaEgreso: null }, {
+                        await inscripcionModel.updateMany({
+                            estado: "ACEPTADA",
+                            fechaEgreso: null,
+                            proyecto: args._id
+                        }, {
 
                             fechaEgreso: Date.now()
 
@@ -151,7 +161,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                             // estado:args.estado, // data permitida a editar si no se pone aqui no me permite editar 
                             // // el estado ni sale el enumerador de aceptada rechazada o pendiente 
                         });
-                        console.log("proyecto editado", proyectoEditado)
+                        // console.log("proyecto editado", proyectoEditado)
                         return proyectoEditado;
 
                     } else {
@@ -169,7 +179,11 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
 
                         if (args.estado === "INACTIVO") {
 
-                            await inscripcionModel.updateMany({ estado: "ACEPTADA", fechaEgreso: null }, {
+                            await inscripcionModel.updateMany({
+                                estado: "ACEPTADA",
+                                fechaEgreso: null,
+                                proyecto: args._id
+                            }, {
 
                                 fechaEgreso: Date.now()
 
