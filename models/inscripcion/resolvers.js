@@ -9,12 +9,18 @@ const resolversInscripcion = {
         Inscripciones: async (parent, args, context) => {
 
             if (context.userData.rol === 'LIDER') {
-
+                const _idProyectosLiderados = []
                 const proyectos = await projectModel.find({ lider: context.userData._id })
-                console.log('proyectos', proyectos)
-                const inscripciones = proyectos._id
-                console.log(inscripciones)
-                const inscripcion = await inscripcionModel.find({ inscripciones })
+                for (let i = 0; i < proyectos.length; i++) {
+
+                    _idProyectosLiderados.push(proyectos[i]._id)
+                    // console.log('proyectos', proyectos[i].lider)
+                    // console.log('proyectos', proyectos[i].nombre)
+                }
+                // console.log("_idProyectosLiderados: ",_idProyectosLiderados)
+                //     const inscripciones = proyectos._id
+                //     console.log("inscripciones:",inscripciones)
+                const inscripcion = await inscripcionModel.find({ proyecto: _idProyectosLiderados })
                     .populate('estudiante')
                     .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
                         path: 'proyecto',
@@ -23,7 +29,7 @@ const resolversInscripcion = {
                         },
 
                     })
-                console.log("todas las inscripciones:", inscripcion)
+                // console.log("todas las inscripciones:", inscripcion)
                 return inscripcion;
             }
 
@@ -33,7 +39,7 @@ const resolversInscripcion = {
             const inscripcion = await inscripcionModel.find({ _id: args._id })
                 .populate('estudiante')
                 .populate('proyecto')
-            console.log("una sola inscripcion", args, inscripcion);
+            // console.log("una sola inscripcion", args, inscripcion);
             return inscripcion[0];
         },
     },
@@ -45,12 +51,25 @@ const resolversInscripcion = {
 
             if (context.userData.rol === 'ESTUDIANTE') {
 
-                const inscripcionCreada = await inscripcionModel.create({
+                const proyectoActivo = await projectModel.find({ _id: args.proyecto, estado: 'ACTIVO' })//busco proyecto por el id y si esta activo
+                // console.log("proyecto Activo: ", proyectoActivo)
 
-                    proyecto: args.proyecto,
-                    estudiante: context.userData._id,
-                });
-                return inscripcionCreada;
+                const faseProyecto = proyectoActivo[0].fase;
+
+                if (faseProyecto === 'TERMINADO') {
+
+                    return null
+                } else {
+
+                    const inscripcionCreada = await inscripcionModel.create({
+
+                        proyecto: args.proyecto,
+                        estudiante: context.userData._id,
+                    });
+                    return inscripcionCreada;
+                }
+
+
             } else {
                 const inscripcionCreada = inscripcionModel;
 
@@ -60,7 +79,6 @@ const resolversInscripcion = {
 
                 return inscripcionCreada;
             }
-
 
         },
 

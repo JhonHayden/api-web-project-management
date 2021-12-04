@@ -11,7 +11,7 @@ const resolversAutenticacion = {
         // Mutacion de Registro
         registro: async (parent, args) => {
 
-            console.log("entradas del registro desde el frontend", args)
+            // console.log("entradas del registro desde el frontend", args)
 
             // primero encriptamos la contraseña:
             const salt = await bcrypt.genSalt(10);//funcion asincrona que me genera las rondas de salt de encriptado recibe como 
@@ -36,7 +36,7 @@ const resolversAutenticacion = {
                 password: hashedPassword, // mando la contraseña ya encriptada 
             })
             // console.log("registro o crear un usuario ", args);
-            console.log("usuario creado ", usuarioCreado);
+            // console.log("usuario creado ", usuarioCreado);
 
             return {
                 token: generateToken({
@@ -60,7 +60,7 @@ const resolversAutenticacion = {
 
         // Mutacion de login 
         login: async (parent, args) => {
-            console.log("entradas del login desde el frontend", args)
+            // console.log("entradas del login desde el frontend", args)
             //                                                    filtro para buscar 
             //                                                    el usuario en la bd 
             //                                                    coleccion Usuario
@@ -76,9 +76,9 @@ const resolversAutenticacion = {
             // y false si no los son .. ojo compare no desencripta el no puede hacer es el compara son los hashing 
             // de las contraseñas 
 
-            console.log("usuario que quiere iniciar sesion :", args)
-            console.log("usuario Encontrado por correo :", usuarioEncontrado)
-            console.log("comparacion de hashing :  ", comparacionHashings)
+            // // console.log("usuario que quiere iniciar sesion :", args)
+            // console.log("usuario Encontrado por correo :", usuarioEncontrado)
+            // console.log("comparacion de hashing :  ", comparacionHashings)
 
             if (comparacionHashings) {
 
@@ -112,7 +112,7 @@ const resolversAutenticacion = {
         // mutacion que me genera un nuevo token si el usuario esta autenticado, me actualiza token  
         actualizarToken: async (parent, args, context) => {// resolver que me genera un nuevo token 
 
-            console.log("SOY CONTEXT LA VARIABLE GLOBAL CONTEXT DE APOLLO SERVER = ", context)
+            console.log("SOY CONTEXT LA VARIABLE GLOBAL CONTEXT DE APOLLO SERVER = ", context.userData)
             if (!context.userData) {
                 return {//muy importante los resolver debe devolvel, retornar el mismo tipo de dato como esta 
                     // definido en el template o string de graphql de las mutaciones o querys, en este caso este resolvers
@@ -124,7 +124,7 @@ const resolversAutenticacion = {
                     error: "Token no valido"
                 }
             } else {
-                console.log('si tenemos userData, el token es valido ')// si tenemos el userData el token es valido asi 
+                // console.log('si tenemos userData, el token es valido ')// si tenemos el userData el token es valido asi 
                 // que retornamos un nuevo token 
 
 

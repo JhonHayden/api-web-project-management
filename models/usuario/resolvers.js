@@ -15,7 +15,7 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
         //QUERYS USUARIOS
         // me trae todos los usuarios de la base de datos
         Usuarios: async (parent, args, context) => {
-            console.log("datos del usuario que visito la tabla de todos los usuarios", context)
+            // console.log("datos del usuario que visito la tabla de todos los usuarios", context)
             if (context.userData.rol === 'ADMINISTRADOR') {// restriccion de query por rol
 
                 const usuarios = await userModel.find()
@@ -40,7 +40,7 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
                 //     return usuarios
 
             } else if (context.userData.rol === 'LIDER') {
-                const usuarios = await userModel.find({rol:"ESTUDIANTE"})
+                const usuarios = await userModel.find({ rol: "ESTUDIANTE" })
                     .populate('proyectosLiderados') // me permite traer la informacion de la parte many de la relacion one to many de usuario 
                     // y proyectos un usuario lider puede lider varios proyectos entonces con populate virtual puedo traer los proyectos 
                     // liderados como una lista, el parametro que le paso al metodo populate es un campo o atributo de mi type usuario 
@@ -50,7 +50,7 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
                 // console.log("soy todos los usuarios", usuarios);
                 return usuarios;
 
-            }else{
+            } else {
                 return null
             }
         },
@@ -73,7 +73,7 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
 
         // MUTATIONS DE USUARIOS
         crearUsuario: async (parent, args) => {
-            console.log("entradas del registro desde el frontend", args)
+            // console.log("entradas del registro desde el frontend", args)
 
             // primero encriptamos la contraseña:
             const salt = await bcrypt.genSalt(10);//funcion asincrona que me genera las rondas de salt de encriptado recibe como 
@@ -131,40 +131,45 @@ const resolversUsuario = {  // existen dos tipos de resolver (Query y mutacion) 
         // findOneAndUpdate le paso dos argumentos el primero es el filtro para buscar el 
         // documento, registro a modificar y luego el segundo son los campos que quiero 
         // editar o los campo permitidos para editar
-        editarUsuario: async (parent, args) => {
+        editarUsuario: async (parent, args, context) => {
+            if (context.userData._id === args._id) {
 
-            if (args.password) {
-                // primero encriptamos la contraseña:
-                const salt = await bcrypt.genSalt(10);//funcion asincrona que me genera las rondas de salt de encriptado recibe como 
-                // parametro un entero el cual es la cantidad de rondas de encriptado lo comun es 10 entre mas sean mas seguro la 
-                // encriptacion pero es mas pesado y demorado el proceso 
+                if (args.password) {
+                    // primero encriptamos la contraseña:
+                    const salt = await bcrypt.genSalt(10);//funcion asincrona que me genera las rondas de salt de encriptado recibe como 
+                    // parametro un entero el cual es la cantidad de rondas de encriptado lo comun es 10 entre mas sean mas seguro la 
+                    // encriptacion pero es mas pesado y demorado el proceso 
 
-                // Salt son las veces de encriptacion, rondas de encriptado,  encripta la contraseña n veces un detras de la otra
+                    // Salt son las veces de encriptacion, rondas de encriptado,  encripta la contraseña n veces un detras de la otra
 
-                const hashedPassword = await bcrypt.hash(args.password, salt);// me encripta la contraseña hace el proceso de 
-                // hashing a la contraseña, es una funcion asincrona por eso necesita el awai, y tiene como parametros 
-                // la contraseña a encriptar (args.password) y luego el segundo parametro son las rondas de encriptado (salt) 
-                // y retorna en la variable hashedPassword la contraseña ya encriptada y esta la pasamos para crear el 
-                // usuario en la base de datos 
+                    const hashedPassword = await bcrypt.hash(args.password, salt);// me encripta la contraseña hace el proceso de 
+                    // hashing a la contraseña, es una funcion asincrona por eso necesita el awai, y tiene como parametros 
+                    // la contraseña a encriptar (args.password) y luego el segundo parametro son las rondas de encriptado (salt) 
+                    // y retorna en la variable hashedPassword la contraseña ya encriptada y esta la pasamos para crear el 
+                    // usuario en la base de datos 
 
-                const usuarioEditado = await userModel.findOneAndUpdate({ _id: args._id }, {
-                    identificacion: args.identificacion,
-                    nombre: args.nombre,
-                    apellido: args.apellido,
-                    correo: args.correo,
-                    password: hashedPassword,
+                    const usuarioEditado = await userModel.findOneAndUpdate({ _id: args._id }, {
+                        identificacion: args.identificacion,
+                        nombre: args.nombre,
+                        apellido: args.apellido,
+                        correo: args.correo,
+                        password: hashedPassword,
 
-                }, { new: true });// new : true me permite que en el retorno sea el usuario editado  
-                return usuarioEditado;
-            } else {
-                const usuarioEditado = await userModel.findOneAndUpdate({ _id: args._id }, {
-                    identificacion: args.identificacion,
-                    nombre: args.nombre,
-                    apellido: args.apellido,
-                    correo: args.correo,
+                    }, { new: true });// new : true me permite que en el retorno sea el usuario editado  
+                    return usuarioEditado;
+                } else {
+                    const usuarioEditado = await userModel.findOneAndUpdate({ _id: args._id }, {
+                        identificacion: args.identificacion,
+                        nombre: args.nombre,
+                        apellido: args.apellido,
+                        correo: args.correo,
 
-                }, { new: true });// new : true me permite que en el retorno sea el usuario editado  
-                return usuarioEditado;
+                    }, { new: true });// new : true me permite que en el retorno sea el usuario editado  
+                    return usuarioEditado;
+                }
+            }else{
+
+                console.log("NO PUEDE EDITAR INFORMACION PERSONAL DE OTRO USUARIO, POR FAVOR INICIAR SESION")
             }
         },
         editarEstadoUsuario: async (parent, args, context) => {

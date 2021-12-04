@@ -27,7 +27,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                     .populate('inscripciones')
                     .populate('lider')
 
-                console.log("todos los proyectos:", proyectos);
+                // console.log("todos los proyectos:", proyectos);
                 return proyectos;
             } else if (context.userData.rol === 'LIDER') {
 
@@ -48,7 +48,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                     })
                     .populate('lider')
 
-                console.log("todos los proyectos:", proyectos);
+                // console.log("todos los proyectos:", proyectos);
                 return proyectos;
             }
         },
@@ -59,7 +59,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                     .populate('avances')
                     .populate('inscripciones')
 
-                console.log("un solo proyecto :", args.nombre);
+                // console.log("un solo proyecto :", args.nombre);
                 return proyecto[0];
             }
         }
@@ -111,12 +111,12 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
 
                     const proyectofase = await projectModel.findById(args._id)
                     const fase = proyectofase.fase
-                    console.log("fase proyecto :", fase)
+                    // console.log("fase proyecto :", fase)
                     args.fechaInicio = Date.now();
                     args.fechaFin = Date.now();
                     // args.fechaInicio = new Date();
 
-                    console.log(args.fechaInicio)
+                    // console.log(args.fechaInicio)
                     if (args.estado === 'ACTIVO' && fase === 'NULA') {
 
 
@@ -130,7 +130,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                             fase: 'INICIADO',
                             // lider: args.lider,
                         }, { new: true });
-                        console.log("proyecto editado", proyectoEditado)
+                        // console.log("proyecto editado", proyectoEditado)
                         return proyectoEditado;
 
                     } else if (fase === 'EN_DESARROLLO' && args.fase === 'TERMINADO') {
@@ -194,7 +194,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                                 // // el estado ni sale el enumerador de aceptada rechazada o pendiente 
                             });
                         }
-                        console.log("proyecto editado", proyectoEditado)
+                        // console.log("proyecto editado", proyectoEditado)
                         return proyectoEditado;
 
                     };
@@ -212,7 +212,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                         // fase: args.fase,
                         // lider: args.lider,
                     }, { new: true });
-                    console.log("proyecto editado", proyectoEditado)
+                    // console.log("proyecto editado", proyectoEditado)
                     return proyectoEditado;
                 } else {
 

@@ -62,7 +62,7 @@ const server = new ApolloServer({ // definicion, declaracion e instancia de un s
             // a userData para luego retornar.. userData es mi contexto para toda la aplicacion
 
             if (userData) {
-
+                console.log("usuario que inicio sesion: ", userData)
                 return { userData }; // variable que retorna el callback del context de ApolloServer y es la variable que 
                 // podre usar en toda la aplicacion es como una variable global y esta contiene la informacion del usuario que 
                 // acaba de iniciar sesion con esta podemos restrigir request dependiento del rol del usuario si le consultamos a esta variable
@@ -73,6 +73,8 @@ const server = new ApolloServer({ // definicion, declaracion e instancia de un s
                 // y es esta variable global 
                 // ejemplo :  validateToken: async (parent, args, context) => {  context es la variable global por context entra los datos 
                 //     de userData que  el payload la informacion del usuario que acaba de iniciar sesion 
+            }else{
+                console.log("no tiene el token permitido,  userData  es igual a: ", userData)
             }
         }
 
