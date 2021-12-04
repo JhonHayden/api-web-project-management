@@ -20,6 +20,7 @@ const tiposEnumeradores = gql`
         ESTUDIANTE
         LIDER
         ADMINISTRADOR
+        PENDIENTE
     }
 
     enum Enum_EstadoUsuario{

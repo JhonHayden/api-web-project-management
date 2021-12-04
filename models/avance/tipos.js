@@ -13,17 +13,27 @@ import { gql } from "apollo-server-express";
 // typeDefs tambien me define la estructura de los tipos de las operaciones que puedo hacer el en backend 
 
 const tiposAvance = gql`
+
+    type Observacion{
+        _id:ID!
+        descripcionObservacion:String!
+    }
+
+     input inputObservacion{
+        descripcionObservacion:String!
+    }
+
     type Avance {
         _id:ID!
         fecha:Date!
         descripcion:String!
-        observaciones:[String]
+        observaciones:[Observacion]
         proyecto:Proyecto!
         creadoPor:Usuario!
     }
      type Query{   
         
-        Avances:[Avance]
+        Avances(idProyecto:String!):[Avance]
         Avance(_id:String!):Avance
         filtrarAvance(_id:String!):[Avance]
     }
@@ -32,9 +42,9 @@ const tiposAvance = gql`
         crearAvance(
             fecha:Date!
             descripcion:String!
-            observaciones:[String]
+            observaciones:[inputObservacion]
             proyecto:String!
-            creadoPor:String!
+            creadoPor:String
         ):Avance
 
         eliminarAvance(
@@ -44,9 +54,27 @@ const tiposAvance = gql`
         editarAvance(
             _id:ID!
             descripcion:String
-            observaciones:[String]
+            observaciones:[inputObservacion]
             proyecto:String
             creadoPor:String
+        ):Avance
+
+
+        crearObservacion(
+            idAvance:String!
+            descripcionObservacion:String!
+        ):Avance
+
+
+        editarObservacion(
+            idAvance:String!,
+            indexObservacion:Int!,
+            descripcionObservacion:String!
+        ):Avance
+
+        eliminarObservacion(
+            idAvance:String!
+            idObservacion:String!
         ):Avance
     }
     `;

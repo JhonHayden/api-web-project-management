@@ -17,7 +17,10 @@ const avanceSchema = new Schema({
     },
     observaciones: [  // esta observaciones son del usuario lider y son despues de crear el avance, no es required
         {
-            type: String,
+            descripcionObservacion:{
+                type: String,
+                required:true,
+            }
         },
     ],
     proyecto: {

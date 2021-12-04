@@ -27,7 +27,7 @@ const main = async () => { // funcion principal me retorna la conexion a la BD
 
     const proyectoCreado = await projectModel.find({ _id: '6193132e201eeab51ccd7c33' });
 
-    console.log(" consultado proyecto creado es :",JSON.stringify(proyectoCreado));
+    // console.log(" consultado proyecto creado es :",JSON.stringify(proyectoCreado));
 
 
     // const usuarioInicial = await userModel.create({ // query para crear un usuario (un documento) en la coleccion Users
