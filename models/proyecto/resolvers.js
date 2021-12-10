@@ -24,7 +24,13 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                         },
 
                     })
-                    .populate('inscripciones')
+                    .populate({
+                        path: 'inscripciones',
+                        populate: {
+                            path: 'proyecto'
+                        },
+                    }
+                    )
                     .populate('lider')
 
                 // console.log("todos los proyectos:", proyectos);
@@ -77,7 +83,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                     presupuesto: args.presupuesto,
                     fechaInicio: args.fechaInicio,
                     fechaFin: args.fechaFin,
-                    lider: args.lider,
+                    lider: context.userData._id,
                 });
 
                 if (Object.keys(args).includes('estado')) {

@@ -32,7 +32,7 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
                     const avances = await avanceModel.find({ proyecto: args.idProyecto })
                         .populate('proyecto')
                         .populate('creadoPor')
-                    // console.log("todos los Avances:")
+                    // console.log("todos los Avances del proyecto :", avances)
                     return avances;
 
                 }
