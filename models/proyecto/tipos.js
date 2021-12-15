@@ -26,7 +26,7 @@ const tiposProyecto = gql`
 
     input camposObjetivos{
         descripcion:String!
-        tipo:Enum_TipoObjetivo!
+        tipo:Enum_TipoObjetivo
     }
 
     type Proyecto {

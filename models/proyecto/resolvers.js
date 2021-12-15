@@ -20,7 +20,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                     .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
                         path: 'avances',
                         populate: {
-                            path: 'creadoPor',
+                            path: 'creadoPor'
                         },
 
                     })
@@ -37,18 +37,19 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
                 return proyectos;
             } else if (context.userData.rol === 'LIDER') {
 
+                console.log("entre por aqui ")
                 const proyectos = await projectModel.find({ lider: context.userData._id })
                     .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
                         path: 'avances',
                         populate: {
-                            path: 'creadoPor',
+                            path: 'creadoPor'
                         },
 
                     })
                     .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
                         path: 'inscripciones',
                         populate: {
-                            path: 'estudiante',
+                            path: 'estudiante'
                         },
 
                     })
@@ -59,7 +60,7 @@ const resolversProyecto = {  // existen dos tipos de resolver (Query y mutacion)
             }
         },
         Proyecto: async (parent, args, context) => {
-            if (context.userData.rol === 'LIDER') {
+            if (context.userData.rol === 'LIDER'|| context.userData.rol === 'ESTUDIANTE') {
                 const proyecto = await projectModel.find({ _id: args._id })
                     .populate('lider')
                     .populate('avances')

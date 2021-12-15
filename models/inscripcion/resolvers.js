@@ -44,7 +44,7 @@ const resolversInscripcion = {
                         },
 
                     })
-                console.log("todas las inscripciones:", inscripcion)
+                // console.log("todas las inscripciones:", inscripcion)
                 return inscripcion;
 
 

@@ -26,7 +26,7 @@ const resolversAutenticacion = {
             // y retorna en la variable hashedPassword la contraseña ya encriptada y esta la pasamos para crear el 
             // usuario en la base de datos 
 
-
+            // const error = false
             const usuarioCreado = await userModel.create({// me permite crear el usuario en la base de datos 
                 identificacion: args.identificacion,
                 nombre: args.nombre,
@@ -34,20 +34,37 @@ const resolversAutenticacion = {
                 correo: args.correo,
                 rol: args.rol,
                 password: hashedPassword, // mando la contraseña ya encriptada 
-            })
+            }
+                // ,
+                // (err) => {
+
+                //     if (err) {
+                //         return console.error(err)
+                //     }
+
+                // }
+            )
             // console.log("registro o crear un usuario ", args);
-            // console.log("usuario creado ", usuarioCreado);
+            console.log("usuario creado ", usuarioCreado);
+
+
+            // if (error) {
+            //     return {
+            //         error: 'usuario ya registrado no puede registrarlo dos veces'
+            //     }
+            // } else {
 
             return {
-                token: generateToken({
-                    _id: usuarioCreado._id,
-                    identificacion: usuarioCreado.identificacion,
-                    nombre: usuarioCreado.nombre,             // informacion incrustada en el token payload
-                    apellido: usuarioCreado.apellido,
-                    correo: usuarioCreado.correo,
-                    rol: usuarioCreado.rol,
-                    estado: usuarioCreado.estado,
-                }),// retornamos un objeto de clave= token : y valor = con el token generado con la informacion 
+                token:"usuario ya registrado"
+                //  generateToken({
+                //     _id: usuarioCreado._id,
+                //     identificacion: usuarioCreado.identificacion,
+                //     nombre: usuarioCreado.nombre,             // informacion incrustada en el token payload
+                //     apellido: usuarioCreado.apellido,
+                //     correo: usuarioCreado.correo,
+                //     rol: usuarioCreado.rol,
+                //     estado: usuarioCreado.estado,
+                // }),// retornamos un objeto de clave= token : y valor = con el token generado con la informacion 
                 // del usuario inscrustada 
                 // devolvelos un type definido en tipos la carpeta utils y es un tipo objeto con dos propiedades 
                 // objeto retornado las propiedades retornadas son opcionales pero debo enviar siempr el token obviamente 
@@ -56,6 +73,7 @@ const resolversAutenticacion = {
                 //     error:String
                 // }
             };
+            // }
         },
 
         // Mutacion de login 
@@ -80,7 +98,7 @@ const resolversAutenticacion = {
             // console.log("usuario Encontrado por correo :", usuarioEncontrado)
             // console.log("comparacion de hashing :  ", comparacionHashings)
 
-            if (comparacionHashings) {
+            if (comparacionHashings && usuarioEncontrado.estado === 'AUTORIZADO') {
 
                 return { // GENERAMOS Y RETORNAMOS EL TOKEN SI LA COMAPARCION ES TRUE ES DECIR SI COINCIDEN LOS HASHING
                     // Y LAS CONTRASEÑAS SON IGUALES 
@@ -103,9 +121,12 @@ const resolversAutenticacion = {
                     // }
                 }
             }
-            else{
+            else if (!comparacionHashings) {
 
-                return {error:"Contraseña incorrecta"}
+                return { error: "Contraseña incorrecta" }
+            } else {
+
+                return { error: "No estas autorizado todavía" }
             }
         },
 
