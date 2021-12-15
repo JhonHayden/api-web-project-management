@@ -31,6 +31,23 @@ const resolversInscripcion = {
                     })
                 // console.log("todas las inscripciones:", inscripcion)
                 return inscripcion;
+            }else if (context.userData.rol === 'ESTUDIANTE'){
+
+                const inscripcion = await inscripcionModel.find({ 
+                    estudiante: context.userData._id,
+                    estado: 'ACEPTADA' })
+                    .populate('estudiante')
+                    .populate({// forma de hacer populate anidados y a mas niveles internos traer informacion 
+                        path: 'proyecto',
+                        populate: {
+                            path: 'lider',
+                        },
+
+                    })
+                // console.log("todas las inscripciones:", inscripcion)
+                return inscripcion;
+
+
             }
 
         },
@@ -53,7 +70,7 @@ const resolversInscripcion = {
 
                 const proyectoActivo = await projectModel.find({ _id: args.proyecto, estado: 'ACTIVO' })//busco proyecto por el id y si esta activo
                 // console.log("proyecto Activo: ", proyectoActivo)
-
+                console.log("Proyecto activo :"  , proyectoActivo)
                 const faseProyecto = proyectoActivo[0].fase;
 
                 if (faseProyecto === 'TERMINADO') {
@@ -108,7 +125,7 @@ const resolversInscripcion = {
                     // estudiante: args.estudiante,
                     estado: args.estado,
                     fechaIngreso: args.fechaIngreso,// data permitida a editar si no se pone aqui no me permite editar 
-                    fechaEgreso: args.fechaEgreso // el estado ni sale el enumerador de aceptada rechazada o pendiente 
+                    fechaEgreso: args.fechaEgreso 
                 }, { new: true });
 
 
@@ -120,7 +137,7 @@ const resolversInscripcion = {
 
         aprobarInscripcion: async (parent, args) => {
 
-            const inscripcionAprobada = await inscripcionModel.findByIdAndUpdate(args._id, {
+            const inscripcionAprobada = await inscripcionModel.findByIdAndUpdate(args._idInscripcion, {
                 estado: "ACEPTADA",
                 fechaIngreso: Date.now(),
 
@@ -128,6 +145,16 @@ const resolversInscripcion = {
             return inscripcionAprobada;
 
         },
+        rechazarInscripcion: async (parent, args) => {
+
+            const inscripcionRechazada = await inscripcionModel.findByIdAndUpdate(args._idInscripcion, {
+                estado: "RECHAZADA",
+
+            });
+            return inscripcionRechazada;
+
+        },
     },
 };
+
 export { resolversInscripcion };

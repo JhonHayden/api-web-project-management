@@ -32,7 +32,7 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
                     const avances = await avanceModel.find({ proyecto: args.idProyecto })
                         .populate('proyecto')
                         .populate('creadoPor')
-                    // console.log("todos los Avances:")
+                    // console.log("todos los Avances del proyecto :", avances)
                     return avances;
 
                 }
@@ -156,14 +156,14 @@ const resolversAvance = {  // existen dos tipos de resolver (Query y mutacion) Q
 
                     return null
                 } else {
-                    const avanceEditado = await avanceModel.findOneAndUpdate({ _id: args._id }, {
+                    const avanceEditado = await avanceModel.findByIdAndUpdate({ _id: args._id }, {
                         fecha: args.fecha,
                         descripcion: args.descripcion,
                         // observaciones: args.observaciones,
                         // proyecto: args.proyecto,
                         // creadoPor: args.creadoPor,
                     }, { new: true });
-                    // console.log("avance editado", avanceEditado)
+                    console.log("avance editado", avanceEditado)
                     return avanceEditado;
                 }
             }
