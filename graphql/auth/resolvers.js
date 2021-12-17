@@ -55,7 +55,7 @@ const resolversAutenticacion = {
             // } else {
 
             return {
-                token:"usuario ya registrado"
+                token: "usuario ya registrado"
                 //  generateToken({
                 //     _id: usuarioCreado._id,
                 //     identificacion: usuarioCreado.identificacion,
@@ -83,50 +83,56 @@ const resolversAutenticacion = {
             //                                                    el usuario en la bd 
             //                                                    coleccion Usuario
             const usuarioEncontrado = await userModel.findOne({ correo: args.correo });
-            const comparacionHashings = await bcrypt.compare(args.password, usuarioEncontrado.password);// me permitte 
-            // comparar el encritado hashing de la contraseña ya guardada en la base de datos con el hashing de
-            // la contraseña escrita por el usuario que quiere iniciar sesion el metodo compare de la libreria bcrypt 
-            // hace esto .. este metodo es asincrono por eso se usa el await y recibe dos parametro primero la contraseña 
-            // recibida desde el front es decir la contraseña que el usuario escribe en el login para iniciar sesion 
-            // y esta esta en el args.password  el segundo parametro es el encritado de la contraseña original encontrada 
-            // en la base de datos a traves del metodo finfOne por medio del correo esta se encuentra en 
-            // usuarioEncontrado.password .. este metodo compare me devuelve un true si los hashing son iguales 
-            // y false si no los son .. ojo compare no desencripta el no puede hacer es el compara son los hashing 
-            // de las contraseñas 
 
-            // // console.log("usuario que quiere iniciar sesion :", args)
-            // console.log("usuario Encontrado por correo :", usuarioEncontrado)
-            // console.log("comparacion de hashing :  ", comparacionHashings)
+            if (usuarioEncontrado) {
 
-            if (comparacionHashings && usuarioEncontrado.estado === 'AUTORIZADO') {
+                const comparacionHashings = await bcrypt.compare(args.password, usuarioEncontrado.password);// me permitte 
+                // comparar el encritado hashing de la contraseña ya guardada en la base de datos con el hashing de
+                // la contraseña escrita por el usuario que quiere iniciar sesion el metodo compare de la libreria bcrypt 
+                // hace esto .. este metodo es asincrono por eso se usa el await y recibe dos parametro primero la contraseña 
+                // recibida desde el front es decir la contraseña que el usuario escribe en el login para iniciar sesion 
+                // y esta esta en el args.password  el segundo parametro es el encritado de la contraseña original encontrada 
+                // en la base de datos a traves del metodo finfOne por medio del correo esta se encuentra en 
+                // usuarioEncontrado.password .. este metodo compare me devuelve un true si los hashing son iguales 
+                // y false si no los son .. ojo compare no desencripta el no puede hacer es el compara son los hashing 
+                // de las contraseñas 
 
-                return { // GENERAMOS Y RETORNAMOS EL TOKEN SI LA COMAPARCION ES TRUE ES DECIR SI COINCIDEN LOS HASHING
-                    // Y LAS CONTRASEÑAS SON IGUALES 
-                    token: generateToken({ // generamos el token con la informacion del usuario encontrado dado que 
-                        // este es el que quiere iniciar sesion 
-                        _id: usuarioEncontrado._id,
-                        identificacion: usuarioEncontrado.identificacion,
-                        nombre: usuarioEncontrado.nombre,             // informacion incrustada en el token payload
-                        apellido: usuarioEncontrado.apellido,
-                        correo: usuarioEncontrado.correo,
-                        rol: usuarioEncontrado.rol,
-                        estado: usuarioEncontrado.estado,
-                    }),// retornamos un objeto de clave= token : y valor = con el token generado con la informacion 
-                    // del usuario inscrustada 
-                    // devolvelos un type definido en tipos la carpeta utils y es un tipo objeto con dos propiedades 
-                    // objeto retornado las propiedades retornadas son opcionales pero debo enviar siempr el token obviamente 
-                    // type Token {  
-                    //     token:String
-                    //     error:String
-                    // }
+                // // console.log("usuario que quiere iniciar sesion :", args)
+                // console.log("usuario Encontrado por correo :", usuarioEncontrado)
+                // console.log("comparacion de hashing :  ", comparacionHashings)
+
+                if (comparacionHashings && usuarioEncontrado.estado === 'AUTORIZADO') {
+
+                    return { // GENERAMOS Y RETORNAMOS EL TOKEN SI LA COMAPARCION ES TRUE ES DECIR SI COINCIDEN LOS HASHING
+                        // Y LAS CONTRASEÑAS SON IGUALES 
+                        token: generateToken({ // generamos el token con la informacion del usuario encontrado dado que 
+                            // este es el que quiere iniciar sesion 
+                            _id: usuarioEncontrado._id,
+                            identificacion: usuarioEncontrado.identificacion,
+                            nombre: usuarioEncontrado.nombre,             // informacion incrustada en el token payload
+                            apellido: usuarioEncontrado.apellido,
+                            correo: usuarioEncontrado.correo,
+                            rol: usuarioEncontrado.rol,
+                            estado: usuarioEncontrado.estado,
+                        }),// retornamos un objeto de clave= token : y valor = con el token generado con la informacion 
+                        // del usuario inscrustada 
+                        // devolvelos un type definido en tipos la carpeta utils y es un tipo objeto con dos propiedades 
+                        // objeto retornado las propiedades retornadas son opcionales pero debo enviar siempr el token obviamente 
+                        // type Token {  
+                        //     token:String
+                        //     error:String
+                        // }
+                    }
                 }
-            }
-            else if (!comparacionHashings) {
+                else if (!comparacionHashings) {
 
-                return { error: "Contraseña incorrecta" }
-            } else {
+                    return { error: "Contraseña incorrecta" }
+                } else {
 
-                return { error: "No estas autorizado todavía" }
+                    return { error: "No estas autorizado todavía" }
+                }
+            }else{
+                return {  error: "Correo no registrado "}
             }
         },
 
