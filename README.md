@@ -5,29 +5,6 @@ Aplicación web que permite un modelo de sistema de información
 que soporta la gestión de proyectos de investigación de las universidades
 
 
-______________________________________________________________________________________________________________________________________________________________
-# Scrum Team 
-______________________________________________________________________________________________________________________________________________________________
-
-Product Owner: Stefania Jimenez Valencia<br/>
-Usuario Cuenta GitHub: sjimenezv16
-
-Scrum Master: Jhon hayden Ospina Loaiza<br/> 
-Usuario Cuenta GitHub: JhonHayden
-
-Development Team:
-
-Developer: Arlex Jimenez Lopez<br/>
-Usuario Cuenta GitHub: ajimenezl0608
-
-Analista: Jhonny Ospina Loaiza <br/>
-Usuario Cuenta GitHub: jole4f4
-
-Administrador de BD: Junior Alexander Ospina Loaiza<br/>
-Usuario Cuenta GitHub: Alex1988ander
-
-
-________________________________________________________________________________________________________________
 
 # Módulos del Proyecto:
 
